@@ -3,9 +3,13 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-import HeaderComponent from './components/headerComponent'
+
+
+
+
 import FooterComponent from './components/footerComponent'
 
 
@@ -20,6 +24,7 @@ import LoginPage from './pages/loginPage'
 import NosotrosPage from './pages/nosotrosPage'
 import RegistroPage from './pages/registroPage'
 import SillasPage from './pages/sillasPage'
+import NavigateApp from './components/NavigateApp';
 
 
 function App() {
@@ -27,7 +32,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <HeaderComponent />
+       <div className="app-layout">
+        <NavigateApp />
+        <main className="main-content container mt-4">
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/carrito' element={<CarritoPage />} />
@@ -41,11 +48,9 @@ function App() {
         <Route path='/registro' element={<RegistroPage />} />
         <Route path='/sillas' element={<SillasPage />} />
         <Route path='*' element={<Error404Page />} />
-
-
-
-
       </Routes>
+      </main>
+      </div>
       <FooterComponent />
     </BrowserRouter>
   )
