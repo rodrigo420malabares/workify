@@ -1,10 +1,8 @@
 import React from 'react'
 
-function registroPage() {
+const registroPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>registroPage</div>
   )
 }
 

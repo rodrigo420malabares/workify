@@ -1,10 +1,8 @@
 import React from 'react'
 
-function ficheroPage() {
+const ficheroPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>ficheroPage</div>
   )
 }
 

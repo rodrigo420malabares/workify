@@ -1,10 +1,8 @@
 import React from 'react'
 
-function carritoPage() {
+const carritoPage = () => {
   return (
-    <div>
-      hola
-    </div>
+    <div>carritoPage</div>
   )
 }
 

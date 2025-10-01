@@ -1,10 +1,8 @@
 import React from 'react'
 
-function computadorasPage() {
+const computadorasPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>computadorasPage</div>
   )
 }
 
