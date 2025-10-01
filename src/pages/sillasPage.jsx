@@ -1,10 +1,8 @@
 import React from 'react'
 
-function sillasPage() {
+const sillasPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>sillasPage</div>
   )
 }
 

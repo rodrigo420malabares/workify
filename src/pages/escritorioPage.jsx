@@ -1,10 +1,8 @@
 import React from 'react'
 
-function escritorioPage() {
+const escritorioPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>escritorioPage</div>
   )
 }
 

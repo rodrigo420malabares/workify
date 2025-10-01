@@ -1,10 +1,8 @@
 import React from 'react'
 
-function loginPage() {
+const loginPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>loginPage</div>
   )
 }
 

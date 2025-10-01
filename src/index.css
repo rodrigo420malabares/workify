@@ -1,6 +1,14 @@
-main{
+* {
   margin: 0;
   padding: 0;
-box-sizing: border-box;
-min-height: 100vh;
+  box-sizing: border-box;
 }
+
+main {
+  background-color: #caedfd;
+min-height: 100vh;
+
+}
+
+
+

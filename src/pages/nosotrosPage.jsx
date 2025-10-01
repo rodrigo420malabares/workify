@@ -1,10 +1,8 @@
 import React from 'react'
 
-function nosotrosPage() {
+const nosotrosPage = () => {
   return (
-    <div>
-      
-    </div>
+    <div>nosotrosPage</div>
   )
 }
 
