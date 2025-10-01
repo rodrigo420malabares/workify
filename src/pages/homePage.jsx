@@ -50,7 +50,7 @@ const homePage = () => {
         <Row className="row-cols-1 row-cols-md-4 g-4 p-3">
           <Col>
             <Card className="h-100 text-center">
-              <Link to="/computadoras" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to="/computadora" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <Card.Img variant="top" src={pc1} style={{ height: '200px', objectFit: 'contain' }} />
                 <Card.Body>
                   <Card.Title>Computadoras</Card.Title>
@@ -61,7 +61,7 @@ const homePage = () => {
 
           <Col>
             <Card className="h-100 text-center">
-              <Link to="/ficheros" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to="/fichero" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <Card.Img variant="top" src={fichero1} style={{ height: '200px', objectFit: 'contain' }} />
                 <Card.Body>
                   <Card.Title>Ficheros</Card.Title>
@@ -72,7 +72,7 @@ const homePage = () => {
 
           <Col>
             <Card className="h-100 text-center">
-              <Link to="/escritorios" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to="/escritorio" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <Card.Img variant="top" src={escritorio1} style={{ height: '200px', objectFit: 'contain' }} />
                 <Card.Body>
                   <Card.Title>Escritorios</Card.Title>
