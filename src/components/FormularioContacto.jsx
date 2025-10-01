@@ -37,12 +37,12 @@ export default function FormularioContacto() {
     <main>
       <div className="container my-5">
         <div className="row align-items-center justify-content-center g-4">
-          {/* Logo */}
+        
           <div className="col-12 col-md-5 text-center">
            <img src={logoworkify} alt="Logo de workify" style={{ width: '300px', height: 'auto' }} />
           </div>
 
-          {/* Formulario */}
+        
           <div className="col-12 col-md-6">
             <h2 className="text-center mb-4">Contáctanos</h2>
 
