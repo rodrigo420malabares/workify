@@ -43,7 +43,7 @@ const productossillas = [
   
 ];
 const sillasPage = () => {
- return<Productos titulo=" tecnologia destacada" productos={productossillas} />;
+ return<Productos titulo=" Sillas" productos={productossillas} />;
 };
 
 export default sillasPage

@@ -44,7 +44,7 @@ const productosficheros = [
   
 ];
 const ficheroPage = () => {
-  return<Productos titulo=" tecnologia destacada" productos={productosficheros} />;
+  return<Productos titulo=" Ficheros" productos={productosficheros} />;
 };
 
 
