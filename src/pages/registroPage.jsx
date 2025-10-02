@@ -1,8 +1,11 @@
 import React from 'react'
+import RegisterComponent from '../components/RegisterComponent'
 
 const registroPage = () => {
   return (
-    <div>registroPage</div>
+<>
+<RegisterComponent/>
+</>
   )
 }
 

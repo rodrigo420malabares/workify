@@ -7,6 +7,7 @@ const Productos = ({ titulo, productos }) => {
     <Container className="my-5">
       <h2 className="text-center mb-4">{titulo}</h2>
       <Row className="g-4">
+        
         {productos.map((producto, index) => (
           <Col md={4} sm={6} xs={12} key={index}>
             <Card className="h-100 text-center shadow-sm">

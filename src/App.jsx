@@ -22,7 +22,7 @@ import SillasPage from './pages/sillasPage';
 function App() {
   return (
     <BrowserRouter>
-    <div className="app-layout">
+    <div >
         <NavigateApp />
         <main>
           <Routes>

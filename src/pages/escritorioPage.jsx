@@ -42,7 +42,7 @@ const productosescritorios = [
   },
 ];
 const escritorioPage = () => {
- return<Productos titulo=" tecnologia destacada" productos={productosescritorios} />;
+ return<Productos titulo=" Escritorios" productos={productosescritorios} />;
 };
 
 
