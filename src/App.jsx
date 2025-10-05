@@ -17,7 +17,8 @@ import FicheroPage from './pages/ficheroPage';
 import LoginPage from './pages/loginPage';
 import NosotrosPage from './pages/nosotrosPage';
 import RegistroPage from './pages/registroPage';
-import SillasPage from './pages/sillasPage';
+import SillasPage from './pages/SillasPage';
+import DetalleProducto from './components/DetalleProducto';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path='/nosotros' element={<NosotrosPage />} />
             <Route path='/registro' element={<RegistroPage />} />
             <Route path='/sillas' element={<SillasPage />} />
+            <Route path="/detalle/:id" element={<DetalleProducto/>}/>
             <Route path='*' element={<Error404Page />} />
           </Routes>
         </main>

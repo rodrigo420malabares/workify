@@ -19,4 +19,37 @@ footer {
   margin: 0;
   padding: 20px;
 }
+.miniaturas-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.miniatura-img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border 0.3s ease;
+}
+
+
+@media (max-width: 768px) {
+  .miniaturas-wrapper {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .miniatura-img {
+    flex: 0 0 auto;
+    width: 80px;
+    height: 80px;
+    scroll-snap-align: center;
+  }
+}
+
+
 
