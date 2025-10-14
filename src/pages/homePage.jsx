@@ -14,7 +14,6 @@ import silla1 from '../assets/img/silla1.png';
 const homePage = () => {
   return (
     <>
-      {/* 🖼 Carrusel arriba, bloque independiente */}
       <div className="container-fluid px-0 mb-5 p-3">
         <Carousel>
           <Carousel.Item>
@@ -44,7 +43,7 @@ const homePage = () => {
         </Carousel>
       </div>
 
-      {/* 🧱 Cards abajo, en su propio contenedor */}
+
       <Container>
         <h1 className="text-center mb-4">Lanzamientos</h1>
         <Row className="row-cols-1 row-cols-md-4 g-4 p-3">

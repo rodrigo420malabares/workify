@@ -1,5 +1,5 @@
 import React from 'react'
-import Productos from '../components/producto';
+import Productos from '../components/Producto';
 import escritorio1 from '../assets/img/escritorio1.png';
 import escritorio2 from '../assets/img/escritorio2.png';
 

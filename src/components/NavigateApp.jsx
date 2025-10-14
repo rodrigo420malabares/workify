@@ -5,7 +5,7 @@ import '../styles/NavigateApp.css'
 import logoworkify from '../assets/img/logoworkify.png';
 
 
-export const NavigateApp = () => {
+export const NavigateApp = ({ logIn, logOut, auth }) => {
   return (
     <Navbar expand="lg" bg="primary" variant="black" >
       <Container >
@@ -24,12 +24,28 @@ export const NavigateApp = () => {
             </NavDropdown>
             <Nav.Link as={NavLink} to="/Nosotros">Nosotros</Nav.Link>
             <Nav.Link as={NavLink} to="/Contacto">Contacto</Nav.Link>
+
           </Nav>
 
-          <div className="d-flex align-items-center gap-3">
-            <Button as={NavLink} to="/Login" variant="outline-light">
-              Inicio de Seccion
-            </Button>
+          <div className="d-flex align-items-center gap-2">
+            {
+              auth && (<Nav.Link as={NavLink} to="/Admin">Admin</Nav.Link>)
+            }
+
+            {auth ? (
+              <>
+               
+                <Button variant="outline-light" onClick={logOut}>
+                  Cerrar sesión
+                </Button>
+              </>
+            ) : (
+              <Button as={NavLink} to="/Login" variant="outline-light">
+                Inicio de sesión
+              </Button>
+            )}
+
+
 
             <NavLink to="/Carrito" className="text-white text-decoration-none position-relative">
               <i className="bi bi-cart-fill fs-6">Carrito</i>
@@ -38,6 +54,7 @@ export const NavigateApp = () => {
               </span>
             </NavLink>
           </div>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>
