@@ -11,6 +11,7 @@ import InfoProducto from '../components/InfoProducto';
 import pc1 from '../assets/img/pc1.png';
 import pc2 from '../assets/img/pc2.png';
 
+
 const productosIniciales = [
   {
     id: 3,
@@ -194,7 +195,7 @@ function DetalleProducto() {
         : p
     );
     setProductos(actualizado);
-    setSelectedIndex(producto.imagenes.length); // apunta a la nueva imagen
+    setSelectedIndex(producto.imagenes.length); 
   };
 
   if (!producto) return <h2 className="text-center py-5">Producto no encontrado</h2>;
@@ -229,6 +230,8 @@ function DetalleProducto() {
         </Col>
       </Row>
     </Container>
+
+    
   );
 }
 

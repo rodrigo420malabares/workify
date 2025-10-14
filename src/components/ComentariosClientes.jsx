@@ -5,7 +5,7 @@ import '../styles/comentarios.css'
 const comentarios = [
   {
     nombre: 'Lucía Fernández',
-    texto: 'Excelente atención y productos de calidad. Compré unas zapatillas y llegaron rapidísimo.',
+    texto: 'Excelente atención y productos de calidad.',
   },
   {
     nombre: 'Martín Gómez',

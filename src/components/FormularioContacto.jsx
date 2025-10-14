@@ -1,63 +1,67 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import '../styles/FormularioContacto.css';
 import logoworkify from '../assets/img/logoworkify.png';
 
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
 export default function FormularioContacto() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const formRef = useRef();
   const [enviado, setEnviado] = useState(false);
   const [error, setError] = useState(false);
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = e => {
     e.preventDefault();
 
     emailjs
-      .send('service_s8s8jye', 'template_4g8wmzs', formData, '5AOsvGiQmW8qjZ3UZ')
+      .sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        EMAILJS_PUBLIC_KEY
+      )
       .then(() => {
         setEnviado(true);
         setError(false);
-        setFormData({ name: '', email: '', message: '' });
+        formRef.current.reset();
       })
-      .catch(() => {
-        setError(true);
-        setEnviado(false);
-      });
+      .catch((error) => {
+      console.error('Error al enviar:', error);
+      alert('Hubo un problema al enviar el mensaje ❌');
+    });
   };
 
   return (
     <main>
       <div className="container my-5">
         <div className="row align-items-center justify-content-center g-4">
-        
           <div className="col-12 col-md-5 text-center">
-           <img src={logoworkify} alt="Logo de workify" style={{ width: '300px', height: 'auto' }} />
+            <img
+              src={logoworkify}
+              alt="Logo de workify"
+              style={{ width: '300px', height: 'auto' }}
+            />
           </div>
 
-        
           <div className="col-12 col-md-6">
             <h2 className="text-center mb-4">Contáctanos</h2>
 
-            {enviado && <div className="alert alert-success">¡Mensaje enviado con éxito!</div>}
-            {error && <div className="alert alert-danger">Hubo un error al enviar el mensaje.</div>}
+            {enviado && (
+              <div className="alert alert-success">¡Mensaje enviado con éxito!</div>
+            )}
+            {error && (
+              <div className="alert alert-danger">Hubo un error al enviar el mensaje.</div>
+            )}
 
-            <form onSubmit={handleSubmit} className="form">
+            <form ref={formRef} onSubmit={handleSubmit} className="form">
               <label htmlFor="name">Nombre:</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 placeholder="Tu nombre"
-                value={formData.name}
-                onChange={handleChange}
                 required
               />
 
@@ -67,8 +71,6 @@ export default function FormularioContacto() {
                 id="email"
                 name="email"
                 placeholder="Tu correo"
-                value={formData.email}
-                onChange={handleChange}
                 required
               />
 
@@ -78,8 +80,6 @@ export default function FormularioContacto() {
                 name="message"
                 placeholder="Escribe tu mensaje aquí..."
                 rows="6"
-                value={formData.message}
-                onChange={handleChange}
                 required
               />
 
@@ -91,5 +91,4 @@ export default function FormularioContacto() {
     </main>
   );
 }
-
 
