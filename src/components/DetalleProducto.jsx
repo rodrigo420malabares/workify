@@ -18,10 +18,10 @@ const productosIniciales = [
     nombre: 'Silla De Oficina Masajeador Presidencial Stephan - Desillas Color Negro',
     precio: '145.999',
     imagenes: [
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759523800/silla1_yira9i.png',
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707025/ejecutivo2_s34c1f.webp',
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707022/ejecutivo4_y5yn4f.webp',
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707021/ejecutivo3_nc275d.webp'
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759523800/silla1_yira9i.png',
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707025/ejecutivo2_s34c1f.webp',
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707022/ejecutivo4_y5yn4f.webp',
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707021/ejecutivo3_nc275d.webp'
 
     ],
     descripcion: `Material del tapizado: Cuero sintético.
@@ -40,10 +40,10 @@ Peso máximo soportado: 120kg.`,
     nombre: 'Silla de escritorio Starway WL 01 ergonómica rosa con tapizado de mesh',
     precio: '137.350',
     imagenes: [
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759523802/silla2_csvugt.png',
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707499/rosa_cmr3tk.webp',
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707396/rosa3_hkemkv.webp',
-'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707397/rosa2_whfcql.webp'
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759523802/silla2_csvugt.png',
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707499/rosa_cmr3tk.webp',
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707396/rosa3_hkemkv.webp',
+      'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759707397/rosa2_whfcql.webp'
 
     ],
     descripcion: `Rango de inclinación del respaldo de 360.
@@ -195,7 +195,7 @@ function DetalleProducto() {
         : p
     );
     setProductos(actualizado);
-    setSelectedIndex(producto.imagenes.length); 
+    setSelectedIndex(producto.imagenes.length);
   };
 
   if (!producto) return <h2 className="text-center py-5">Producto no encontrado</h2>;
@@ -231,7 +231,7 @@ function DetalleProducto() {
       </Row>
     </Container>
 
-    
+
   );
 }
 

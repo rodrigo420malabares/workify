@@ -11,10 +11,10 @@ const LoginComponent = ({ logIn }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validación simple (podés reemplazar con lógica real)
+   
     if (correo === 'admin@workify.com' && contraseña === '1234') {
-      logIn(); // Cambia el estado de autenticación
-      navigate('/Admin'); // Redirige al panel de administración
+      logIn();
+      navigate('/Admin'); 
     } else {
       alert('Correo o contraseña incorrectos');
     }
