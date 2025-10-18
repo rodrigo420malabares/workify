@@ -92,6 +92,7 @@ const homePage = () => {
           </Col>
         </Row>
       </Container>
+      
     </>
   );
 };

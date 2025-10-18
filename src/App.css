@@ -18,6 +18,8 @@ header,
 footer {
   margin: 0;
   padding: 20px;
+
+
 }
 .miniaturas-wrapper {
   display: flex;
