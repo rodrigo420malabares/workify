@@ -8,10 +8,10 @@ import FooterComponent from './components/footerComponent';
 import NavigateApp from './components/NavigateApp';
 
 import HomePage from './pages/HomePage';
-import CarritoPage from './pages/CarritoPage';
+import CarritoPage from './pages/carritoPage';
 import ComputadorasPage from './pages/ComputadorasPage';
-import ContactoPage from './pages/ContactoPage';
-import Error404Page from './pages/Error404Page';
+import ContactoPage from './pages/contactoPage';
+import Error404Page from './pages/error404Page';
 import EscritorioPage from './pages/EscritorioPage';
 import FicheroPage from './pages/FicheroPage';
 import LoginPage from './pages/LoginPage';
