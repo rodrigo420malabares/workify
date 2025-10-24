@@ -14,34 +14,58 @@ import silla1 from '../assets/img/silla1.png';
 const homePage = () => {
   return (
     <>
-      <div className="container-fluid px-0 mb-5 p-3">
+      <div className="responsive-carousel">
         <Carousel>
           <Carousel.Item>
             <img
               src={carrusel1}
-              className="d-block w-100"
+              className="carousel-img"
               alt="Futurista"
-              style={{ height: '400px', objectFit: 'cover' }}
             />
           </Carousel.Item>
           <Carousel.Item>
             <img
               src={carrusel3}
-              className="d-block w-100"
+              className="carousel-img"
               alt="Humano"
-              style={{ height: '400px', objectFit: 'cover' }}
             />
           </Carousel.Item>
           <Carousel.Item>
             <img
               src={carrusel6}
-              className="d-block w-100"
+              className="carousel-img"
               alt="Minimalista"
-              style={{ height: '400px', objectFit: 'cover' }}
             />
           </Carousel.Item>
         </Carousel>
       </div>
+
+<div className="banner-naranja d-none d-lg-flex justify-content-center px-5 py-3">
+  <a
+    href="https://www.naranja.com/solicitar-tarjeta"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="d-flex align-items-center gap-4 text-decoration-none"
+  >
+    <img
+      src="https://res.cloudinary.com/dqzffyx3w/image/upload/q_auto,f_auto,w_300/v1761311841/Logo_tarjeta_NARANJA-removebg-preview_tygyld.png"
+      alt="Promoción Tarjeta Naranja"
+      className="img-fluid"
+      style={{ maxHeight: '120px' }}
+    />
+    <span className="btn btn-warning fw-bold">
+      Solicitá tu Tarjeta
+    </span>
+  </a>
+</div>
+
+
+
+
+
+
+
+
 
 
       <Container>
