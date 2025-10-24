@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function InfoProducto({ nombre, precio, descripcion, talles = [], enlaceCarrito }) {
+
+function InfoProducto({ producto, nombre, precio, descripcion, talles = [], enlaceCarrito,agregarAlCarrito }) {
   const [expandido, setExpandido] = useState(false);
 
   const descripcionItems = descripcion.split('\n').filter(line => line.trim() !== '');
@@ -48,9 +49,12 @@ function InfoProducto({ nombre, precio, descripcion, talles = [], enlaceCarrito 
       )}
 
       <div className="text-center">
-        <Link to={enlaceCarrito}>
-          <Button variant="success" size="lg">Agregar al carrito</Button>
-        </Link>
+       
+        <Button  variant="success" size="lg"// Usamos onClick directamente en el botón
+          onClick={() => agregarAlCarrito(producto)}
+        >
+          Agregar al carrito
+        </Button>
       </div>
     </div>
   );

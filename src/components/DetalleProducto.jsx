@@ -181,7 +181,7 @@ Esta PC es nueva y está optimizada para ofrecerte el mejor rendimiento en cada 
   }
 ];
 
-function DetalleProducto() {
+function DetalleProducto({agregarAlCarrito}) {
   const { id } = useParams();
   const [productos, setProductos] = useState(productosIniciales);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -221,11 +221,13 @@ function DetalleProducto() {
 
         <Col xs="12" md={5}>
           <InfoProducto
+            producto={producto}
             nombre={producto.nombre}
             precio={producto.precio}
             descripcion={producto.descripcion}
             talles={producto.talles}
             enlaceCarrito={producto.enlaceCarrito}
+            agregarAlCarrito={agregarAlCarrito}
           />
         </Col>
       </Row>

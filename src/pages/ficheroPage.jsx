@@ -10,6 +10,7 @@ const productosficheros = [
     nombre: 'Fichero Metalico De 4 Cajones Jmi Color Gris Acero y Gris Claro',
     precio: '$494.092',
     imagen: fichero1,
+    categoria: '',
   },
   {
     id: 6,

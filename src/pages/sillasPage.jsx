@@ -42,8 +42,10 @@ const productosSillas = [
   },
 
 ];
-const SillasPage = () => {
+const SillasPage = (agregarAlCarrito) => {
   return <Productos titulo="Sillas" productos={productosSillas} />;
 };
 
 export default SillasPage
+
+
