@@ -1,64 +1,38 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
+const InfoProducto = ({ producto }) => {
+  const navigate = useNavigate();
 
-function InfoProducto({ producto, nombre, precio, descripcion, talles = [], enlaceCarrito,agregarAlCarrito }) {
-  const [expandido, setExpandido] = useState(false);
-
-  const descripcionItems = descripcion.split('\n').filter(line => line.trim() !== '');
-
-  const visibleItems = expandido ? descripcionItems : descripcionItems.slice(0, 5);
+  const irADetalle = () => {
+    navigate(`/detalle/${producto.id}`);
+  };
 
   return (
-    <div className="p-4 border rounded shadow-sm bg-white">
-      <h2 className="mb-3">{nombre}</h2>
-
-      <h4 className="text-success mb-2">${precio}</h4>
-      <p className="text-muted mb-3">
-        12 cuotas sin interés de ${(parseInt(precio.replace(/\D/g, '')) / 12).toLocaleString('es-AR')}
-      </p>
-
-      <div className="mb-4">
-        <strong>Descripción:</strong>
-        <ul className="mt-2">
-          {visibleItems.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-        {descripcionItems.length > 5 && (
-          <Button
-            variant="link"
-            className="p-0"
-            onClick={() => setExpandido(!expandido)}
-          >
-            {expandido ? 'Ver menos' : 'Ver más'}
-          </Button>
-        )}
-      </div>
-
-      {talles.length > 0 && (
-        <div className="mb-4">
-          <strong>Talles disponibles:</strong>
-          <div className="d-flex gap-2 mt-2 flex-wrap">
-            {talles.map((talle, index) => (
-              <span key={index} className="badge bg-primary">{talle}</span>
-            ))}
-          </div>
-        </div>
+    <Card
+      style={{ width: '18rem', cursor: 'pointer' }}
+      onClick={irADetalle}
+      className="shadow-sm"
+    >
+      {producto.imagenes?.[0] && (
+        <Card.Img
+          variant="top"
+          src={producto.imagenes[0]}
+          alt={producto.nombre}
+          style={{ objectFit: 'cover', height: '200px' }}
+        />
       )}
-
-      <div className="text-center">
-       
-        <Button  variant="success" size="lg"// Usamos onClick directamente en el botón
-          onClick={() => agregarAlCarrito(producto)}
-        >
-          Agregar al carrito
-        </Button>
-      </div>
-    </div>
+      <Card.Body>
+        <Card.Title>{producto.nombre}</Card.Title>
+        <Card.Text>
+          <strong>Categoría:</strong> {producto.categoria}<br />
+          <strong>Precio:</strong> ${producto.precio}<br />
+          <strong>Stock:</strong> {producto.stock ?? 'N/D'}
+        </Card.Text>
+      </Card.Body>
+    </Card>
   );
-}
+};
 
 export default InfoProducto;
 

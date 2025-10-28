@@ -1,60 +1,29 @@
-import Producto from '../components/Producto';
+import InfoProducto from '../components/InfoProducto';
+import { useState, useEffect } from 'react';
 
+const ComputadorasPage = () => {
+  const [productos, setProductos] = useState([]);
 
+  useEffect(() => {
+    const guardados = localStorage.getItem('productos-admin');
+    if (guardados) {
+      const todos = JSON.parse(guardados);
+      const filtrados = todos.filter(p => p.categoria.toLowerCase() === 'computadora');
+      setProductos(filtrados);
+    }
+  }, []);
 
-import pc1 from '../assets/img/pc1.png';
-import pc2 from '../assets/img/pc2.png';
-
-
-const productoscomputadoras = [
-  
- {
-    id: 9,
-    nombre: 'Notebook Hp 15 fc0038la Amd Ryzen 7 7730u 32gb Ddr4-sdram 512gb Ssd 39.6cm (15.6)',
-    precio: '$1.310.199',
-    imagen: pc1,
-  },
-  {
-    id: 10,
-    nombre: 'Pc Gamer Amd Ryzen 7 5700g + 32gb + Ssd 1tb + Wifi + Monitor',
-    precio: '$1.310.199',
-    imagen: pc2,
-  },
-    {
-    id: 9,
-    nombre: 'Notebook Hp 15 fc0038la Amd Ryzen 7 7730u 32gb Ddr4-sdram 512gb Ssd 39.6cm (15.6)',
-    precio: '$1.310.199',
-    imagen: pc1,
-  },
-  {
-    id: 10,
-    nombre: 'Pc Gamer Amd Ryzen 7 5700g + 32gb + Ssd 1tb + Wifi + Monitor',
-    precio: '$1.310.199',
-    imagen: pc2,
-  },
-    {
-    id: 9,
-    nombre: 'Notebook Hp 15 fc0038la Amd Ryzen 7 7730u 32gb Ddr4-sdram 512gb Ssd 39.6cm (15.6)',
-    precio: '$1.310.199',
-    imagen: pc1,
-  },
-  {
-    id: 10,
-    nombre: 'Pc Gamer Amd Ryzen 7 5700g + 32gb + Ssd 1tb + Wifi + Monitor',
-    precio: '$1.310.199',
-    imagen: pc2,
-  },
-   
-  
-
-  
-];
-
-const computadorasPage = () => {
-
-  return <Producto titulo="tecnologia" productos={productoscomputadoras} />;
-
-
+  return (
+    <div className="container py-4">
+      <h2>Computadoras</h2>
+      <div className="d-flex flex-wrap gap-3">
+        {productos.map(p => (
+          <InfoProducto key={p.id} producto={p} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default computadorasPage;
+export default ComputadorasPage;
+

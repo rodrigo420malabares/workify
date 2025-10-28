@@ -1,53 +1,28 @@
-import React from 'react'
-import Productos from '../components/Producto';
-import fichero1 from '../assets/img/fichero1.png';
-import fichero2 from '../assets/img/fichero2.png';
+import InfoProducto from '../components/InfoProducto';
+import { useState, useEffect } from 'react';
 
+const FicheroPage = () => {
+  const [productos, setProductos] = useState([]);
 
-const productosficheros = [
-  {
-    id: 5,
-    nombre: 'Fichero Metalico De 4 Cajones Jmi Color Gris Acero y Gris Claro',
-    precio: '$494.092',
-    imagen: fichero1,
-    categoria: '',
-  },
-  {
-    id: 6,
-    nombre: 'Organizador Acrílico Multiuso Escritorio Oficina Dormitorio',
-    precio: '$145.999',
-    imagen: fichero2,
-  },
- {
-    id: 5,
-    nombre: 'Fichero Metalico De 4 Cajones Jmi Color Gris Acero y Gris Claro',
-    precio: '$494.092',
-    imagen: fichero1,
-  },
-  {
-    id: 6,
-    nombre: 'Organizador Acrílico Multiuso Escritorio Oficina Dormitorio',
-    precio: '$145.999',
-    imagen: fichero2,
-  },
-   {
-    id: 5,
-    nombre: 'Fichero Metalico De 4 Cajones Jmi Color Gris Acero y Gris Claro',
-    precio: '$494.092',
-    imagen: fichero1,
-  },
-  {
-    id: 6,
-    nombre: 'Organizador Acrílico Multiuso Escritorio Oficina Dormitorio',
-    precio: '$145.999',
-    imagen: fichero2,
-  },
+  useEffect(() => {
+    const guardados = localStorage.getItem('productos-admin');
+    if (guardados) {
+      const todos = JSON.parse(guardados);
+      const filtrados = todos.filter(p => p.categoria.toLowerCase() === 'fichero');
+      setProductos(filtrados);
+    }
+  }, []);
 
-
-];
-const ficheroPage = () => {
-  return <Productos titulo="Ficheros" productos={productosficheros} />;
+  return (
+    <div className="container py-4">
+      <h2>Ficheros</h2>
+      <div className="d-flex flex-wrap gap-3">
+        {productos.map(p => (
+          <InfoProducto key={p.id} producto={p} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
-
-export default ficheroPage
+export default FicheroPage;

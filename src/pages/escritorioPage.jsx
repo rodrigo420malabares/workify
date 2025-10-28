@@ -1,49 +1,28 @@
-import React from 'react'
-import Productos from '../components/Producto';
-import escritorio1 from '../assets/img/escritorio1.png';
-import escritorio2 from '../assets/img/escritorio2.png';
+import InfoProducto from '../components/InfoProducto';
+import { useState, useEffect } from 'react';
 
-const productosescritorios = [
-  {
-    id: 7,
-    nombre: 'Escritorio Doble/cuádruple Enfrentado Con Caja Para Conexion',
-    precio: '$380.000',
-    imagen: escritorio1,
-  },
-  {
-    id: 8,
-    nombre: 'Escritorio Para Oficina Industrial Melamina Moderno Hierro Metal Negro Color Roble Vintage 120cm',
-    precio: '$145.999',
-    imagen: escritorio2,
-  },
- {
-    id: 7,
-    nombre: 'Escritorio Doble/cuádruple Enfrentado Con Caja Para Conexion',
-    precio: '$380.000',
-    imagen: escritorio1,
-  },
-  {
-    id: 8,
-    nombre: 'Escritorio Para Oficina Industrial Melamina Moderno Hierro Metal Negro Color Roble Vintage 120cm',
-    precio: '$145.999',
-    imagen: escritorio2,
-  },
-   {
-    id: 7,
-    nombre: 'Escritorio Doble/cuádruple Enfrentado Con Caja Para Conexion',
-    precio: '$380.000',
-    imagen: escritorio1,
-  },
-  {
-    id: 8,
-    nombre: 'Escritorio Para Oficina Industrial Melamina Moderno Hierro Metal Negro Color Roble Vintage 120cm',
-    precio: '$145.999',
-    imagen: escritorio2,
-  },
-];
-const escritorioPage = () => {
-  return <Productos titulo="Escritorios" productos={productosescritorios} />;
+const EscritorioPage = () => {
+  const [productos, setProductos] = useState([]);
+
+  useEffect(() => {
+    const guardados = localStorage.getItem('productos-admin');
+    if (guardados) {
+      const todos = JSON.parse(guardados);
+      const filtrados = todos.filter(p => p.categoria.toLowerCase() === 'escritorio');
+      setProductos(filtrados);
+    }
+  }, []);
+
+  return (
+    <div className="container py-4">
+      <h2>Escritorios</h2>
+      <div className="d-flex flex-wrap gap-3">
+        {productos.map(p => (
+          <InfoProducto key={p.id} producto={p} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
-
-export default escritorioPage
+export default EscritorioPage;

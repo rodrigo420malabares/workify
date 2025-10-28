@@ -1,47 +1,102 @@
-// CarritoPage.jsx - SOLUCIÓN (Asegúrate de los paréntesis después de return)
+import React, { useContext } from 'react';
+import { Container, Row, Col, Image, Button } from 'react-bootstrap';
+import { CarritoContext } from '../context/CarritoContext';
+import { BsTrash } from 'react-icons/bs';
 
-import React from 'react'; // Asegúrate de importar React
+const Carrito = () => {
+  const { carrito, agregarProducto, eliminarProducto, vaciarCarrito } = useContext(CarritoContext);
 
-import CarritoVacio from '../components/CarritoVacio';
-// ... otras importaciones
+  const calcularTotal = () => {
+    return carrito.reduce((total, item) => {
+      const precioNumerico = parseFloat(item.precio?.toString().replace(/[^0-9.-]+/g, '')) || 0;
+      return total + precioNumerico * item.cantidad;
+    }, 0);
+  };
 
-import ListaProductosCarrito from '../components/listaProductosCarrito';
-import ResumenCompra from '../components/ResumenCompra'
+  if (carrito.length === 0) {
+    return (
+      <Container className="py-5 text-center">
+        <h2>Tu carrito está vacío</h2>
+      </Container>
+    );
+  }
 
-const CarritoPage = ({ carrito, eliminarDelCarrito, modificarCantidad }) => {
-    
-    // ... lógica (como calcular subtotal) ...
-const subtotal = carrito.reduce((acumulador, item) => {
-    // Limpiamos el precio para asegurar que es un número
-    const precioNumerico = parseFloat(String(item.precio).replace(/[^0-9.]/g, ''));
-    
-    const precioValido = isNaN(precioNumerico) ? 0 : precioNumerico;
-    
-    return acumulador + (precioValido * item.cantidad);
-}, 0);
+  return (
+    <Container className="py-5">
+      <h2 className="mb-4">Carrito de compras</h2>
+
+      {carrito.map((item, index) => (
+        <Row key={index} className="align-items-center mb-4 border-bottom pb-3">
+          <Col xs={3} md={2}>
+            <Image
+              src={item.imagen}
+              alt={item.nombre}
+              fluid
+              rounded
+              onError={(e) => { e.target.src = '/assets/img/default.png'; }}
+            />
+          </Col>
+          <Col xs={9} md={6}>
+            <h5>{item.nombre}</h5>
+            <p className="mb-1">Talle: {item.talle}</p>
+            <p className="text-success fw-bold">
+              ${item.precio} x {item.cantidad} = ${parseFloat(item.precio) * item.cantidad}
+            </p>
+          </Col>
+          <Col xs={12} md={4} className="text-md-end d-flex justify-content-end align-items-center gap-2">
+            <Button
+              variant="outline-secondary"
+              onClick={() => {
+                const productoBase = {
+                  id: item.id.split('-')[0], 
+                  nombre: item.nombre,
+                  precio: item.precio,
+                  imagenes: [item.imagen],
+                  descripcion: item.descripcion,
+                  categoria: item.categoria,
+                  stock: item.stock,
+                  talles: item.talles,
+                };
+                agregarProducto(productoBase, item.talle, 1);
+              }}
 
 
-    return ( // <--- ¡Asegúrate de poner este paréntesis!
-        <div className="carrito-page-container"> 
-            <h1>Mi carrito</h1>
-            <hr style={{ border: '1px solid #ccc', margin: '10px 0' }} /> 
+              title="Sumar unidad"
+            >
+              +
+            </Button>
+            <span>{item.cantidad}</span>
+            <Button
+              variant="outline-secondary"
+              onClick={() => eliminarProducto(item.id)}
+              title="Eliminar una unidad"
+            >
+              -
+            </Button>
+            <Button
+              variant="outline-danger"
+              onClick={() => eliminarProducto(item.id)}
+              title="Eliminar producto"
+            >
+              <BsTrash size={20} />
+            </Button>
+          </Col>
+        </Row>
+      ))}
 
-            {carrito.length === 0 ? (
-                // 1. Si está vacío
-                <CarritoVacio /> 
-            ) : (
-                // 2. Si tiene ítems
-                <div className="carrito-lleno-grid">
-                    <ListaProductosCarrito 
-                        items={carrito} 
-                        eliminarDelCarrito={eliminarDelCarrito} 
-                        modificarCantidad={modificarCantidad}
-                    />
-                    <ResumenCompra subtotal={subtotal} />
-                </div>
-            )}
-        </div>
-    ); // <--- ¡Asegúrate de poner este paréntesis!
-}
+      <Row className="mt-4">
+        <Col className="text-end">
+          <h4>Total: ${calcularTotal().toLocaleString('es-AR')}</h4>
+          <Button variant="success" className="mt-2">
+            Terminar compra
+          </Button>
+          <Button variant="outline-danger" className="mt-2 ms-2" onClick={vaciarCarrito}>
+            Vaciar carrito
+          </Button>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
-export default CarritoPage;
+export default Carrito;

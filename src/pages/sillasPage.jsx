@@ -1,51 +1,28 @@
-import React from 'react'
-import Productos from '../components/Producto';
-import silla1 from '../assets/img/silla1.png';
-import silla2 from '../assets/img/silla2.png';
+import InfoProducto from '../components/InfoProducto';
+import { useState, useEffect } from 'react';
 
-const productosSillas = [
-  {
-    id: 3,
-    nombre: 'Silla De Oficina Masajeador Presidencial Stephan - Desillas Color Negro',
-    precio: '$145.999',
-    imagen: silla1,
-  },
-  {
-    id: 4,
-    nombre: 'Silla de escritorio Starway WL 01 ergonómica rosa con tapizado de mesh',
-    precio: '$137.350',
-    imagen: silla2,
-  },
-   {
-    id: 3,
-    nombre: 'Silla De Oficina Masajeador Presidencial Stephan - Desillas Color Negro',
-    precio: '$145.999',
-    imagen: silla1,
-  },
-  {
-    id: 4,
-    nombre: 'Silla de escritorio Starway WL 01 ergonómica rosa con tapizado de mesh',
-    precio: '$137.350',
-    imagen: silla2,
-  },
-{
-    id: 3,
-    nombre: 'Silla De Oficina Masajeador Presidencial Stephan - Desillas Color Negro',
-    precio: '$145.999',
-    imagen: silla1,
-  },
-  {
-    id: 4,
-    nombre: 'Silla de escritorio Starway WL 01 ergonómica rosa con tapizado de mesh',
-    precio: '$137.350',
-    imagen: silla2,
-  },
+const SillasPage = () => {
+  const [productos, setProductos] = useState([]);
 
-];
-const SillasPage = (agregarAlCarrito) => {
-  return <Productos titulo="Sillas" productos={productosSillas} />;
+  useEffect(() => {
+    const guardados = localStorage.getItem('productos-admin');
+    if (guardados) {
+      const todos = JSON.parse(guardados);
+      const filtrados = todos.filter(p => p.categoria.toLowerCase() === 'sillas');
+      setProductos(filtrados);
+    }
+  }, []);
+
+  return (
+    <div className="container py-4">
+      <h2>Sillas</h2>
+      <div className="d-flex flex-wrap gap-3">
+        {productos.map(p => (
+          <InfoProducto key={p.id} producto={p} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
-export default SillasPage
-
-
+export default SillasPage;
