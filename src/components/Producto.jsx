@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 
-const Producto = ({ titulo, productos,}) => {
+const Producto = ({ titulo, productos }) => {
   const navigate = useNavigate();
 
   return (
