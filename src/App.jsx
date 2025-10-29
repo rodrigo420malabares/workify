@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
-import { CarritoContext } from './context/CarritoContext';
+import { CarritoProvider } from './context/CarritoContext';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -30,6 +30,7 @@ import SillasPage from './pages/sillasPage';
 import DetalleProducto from './components/DetalleProducto';
 import Admin from './pages/Admin';
 import ProtectedRoutesAdmin from './routes/ProtectedRoutesAdmin';
+import ClientPage from './pages/ClientePage';
 
 
 
@@ -44,13 +45,14 @@ function App() {
   const { usuario, logIn, logOut } = auth;
 
 
-
   return (
+
     <BrowserRouter>
-      <NavigateApp logIn={logIn} logOut={logOut} auth={auth} />
+    <CarritoProvider>
+      <NavigateApp logIn={logIn} logOut={logOut} auth={!!usuario} />
       <main>
         <Routes>
-          <Route path="/Login" element={<LoginPage />} />
+          <Route path="/Ingresa o Registrate" element={<LoginPage />} />
           <Route path='/home' element={<HomePage />} />
           <Route path='/carrito' element={<CarritoPage />} />
 
@@ -62,6 +64,7 @@ function App() {
           <Route path='/registro' element={<RegistroPage />} />
           <Route path='/sillas' element={<SillasPage />} />
           <Route path="/detalle/:id" element={<DetalleProducto />} />
+          <Route path='/cliente' element={<ClientPage/>}/>
           <Route
             path="/admin"
             element={
@@ -76,6 +79,7 @@ function App() {
         </Routes>
       </main>
       <FooterComponent />
+      </CarritoProvider>
     </BrowserRouter>
   );
 }

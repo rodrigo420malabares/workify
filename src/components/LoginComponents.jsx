@@ -1,30 +1,46 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 import logoworkify from '../assets/img/logoworkify.png';
 
-const LoginComponent = ({ logIn }) => {
+const LoginComponent = () => {
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const navigate = useNavigate();
+  const { logIn } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-   
     if (correo === 'admin@workify.com' && contraseña === '1234') {
-      logIn();
-      navigate('/Admin'); 
+      const usuario = {
+        id: 'admin',
+        nombre: 'Administrador',
+        email: correo,
+        rol: 'admin',
+      };
+      logIn(usuario);
+      navigate('/admin');
+    } else if (correo === 'cliente@workify.com' && contraseña === '1234') {
+      const usuario = {
+        id: 'cliente01',
+        nombre: 'Cliente Demo',
+        email: correo,
+        rol: 'cliente',
+      };
+      logIn(usuario);
+      navigate('/home');
     } else {
       alert('Correo o contraseña incorrectos');
     }
   };
 
+
   return (
     <div className="container-fluid py-5" id="contenedoriniciosesion">
       <div className="row justify-content-center align-items-center">
         <div className="col-md-6 d-none d-md-flex justify-content-center align-items-center">
-          <img src={logoworkify} alt="Logo de Workify" style={{ width: '300px', height: 'auto' }} />
+          <img src={logoworkify} alt="logoworkify" style={{ width: '300px', height: 'auto' }} />
         </div>
 
         <div className="col-md-6 col-lg-4 px-4">

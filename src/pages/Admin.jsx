@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Modal, Form, Row, Col, Card, Image, Spinner } from 'react-bootstrap';
+
 
 const Admin = () => {
   const [productos, setProductos] = useState(() => {
@@ -14,6 +15,11 @@ const Admin = () => {
 
   const [filtroCategoria, setFiltroCategoria] = useState('');
   const [filtroTalle, setFiltroTalle] = useState('');
+  const [filtroNombre, setFiltroNombre] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('productos-admin', JSON.stringify(productos));
+  }, [productos]);
 
   const abrirModalNuevo = () => {
     setProductoActual({
@@ -45,38 +51,41 @@ const Admin = () => {
     setShowModal(true);
   };
 
-  const guardarProducto = () => {
-    const { nombre, precio, categoria, descripcion } = productoActual;
-    if (!nombre || !precio || !categoria) {
-      alert('Por favor completá los campos obligatorios.');
-      return;
-    }
-
-    const descripcionFormateada = descripcion
+  const formatearDescripcion = (texto) =>
+    (texto || '')
       .split('.')
       .map(oracion => oracion.trim())
       .filter(Boolean)
       .join('.\n');
 
+  const guardarProducto = () => {
+    const { nombre, precio, categoria, descripcion } = productoActual || {};
+    if (!nombre || !precio || !categoria) {
+      alert('Por favor completá los campos obligatorios.');
+      return;
+    }
+    if (isNaN(Number(precio)) || Number(precio) <= 0) {
+      alert('El precio debe ser un número válido mayor a 0.');
+      return;
+    }
+
     const productoFinal = {
       ...productoActual,
-      descripcion: descripcionFormateada,
+      descripcion: formatearDescripcion(descripcion),
     };
 
-    const actualizados = modoEdicion
-      ? productos.map(p => p.id === productoFinal.id ? productoFinal : p)
-      : [...productos, productoFinal];
+    setProductos(prev =>
+      modoEdicion
+        ? prev.map(p => (p.id === productoFinal.id ? productoFinal : p))
+        : [...prev, productoFinal]
+    );
 
-    setProductos(actualizados);
-    localStorage.setItem('productos-admin', JSON.stringify(actualizados));
     setShowModal(false);
   };
 
   const eliminarProducto = (id) => {
     if (window.confirm('¿Eliminar este producto?')) {
-      const actualizados = productos.filter(p => p.id !== id);
-      setProductos(actualizados);
-      localStorage.setItem('productos-admin', JSON.stringify(actualizados));
+      setProductos(prev => prev.filter(p => p.id !== id));
     }
   };
 
@@ -106,10 +115,10 @@ const Admin = () => {
       if (data.secure_url) {
         setProductoActual(prev => ({
           ...prev,
-          imagenes: [...prev.imagenes, data.secure_url],
+          imagenes: [...(prev?.imagenes || []), data.secure_url],
         }));
       } else {
-        alert('Error al subir imagen: ' + data.message);
+        alert('Error al subir imagen: ' + (data?.message || 'Respuesta inválida'));
       }
     } catch (error) {
       alert('Error de red al subir imagen');
@@ -120,19 +129,42 @@ const Admin = () => {
   };
 
   const eliminarImagen = (index) => {
-    setProductoActual(prev => ({
-      ...prev,
-      imagenes: prev.imagenes.filter((_, i) => i !== index),
-    }));
+    if (window.confirm('¿Eliminar esta imagen?')) {
+      setProductoActual(prev => ({
+        ...prev,
+        imagenes: (prev?.imagenes || []).filter((_, i) => i !== index),
+      }));
+    }
   };
 
+
+  const productosFiltrados = productos.filter(p => {
+    const coincideNombre = filtroNombre
+      ? p.nombre.toLowerCase().includes(filtroNombre.toLowerCase())
+      : true;
+
+    const coincideCategoria = filtroCategoria
+      ? p.categoria === filtroCategoria
+      : true;
+
+    const coincideTalle = filtroTalle
+      ? p.talles?.some(t => t.toLowerCase().includes(filtroTalle.toLowerCase()))
+      : true;
+
+    return coincideNombre && coincideCategoria && coincideTalle;
+  });
+
+
+
+
+
   return (
-    <div className="container py-4">
+    <div className="container py-3">
       <h2>Administrador de productos</h2>
       <Button onClick={abrirModalNuevo}>Crear nuevo producto</Button>
 
-      <Row className="mb-3 mt-3">
-        <Col md={4}>
+      <Row className="mb-2 mt-2">
+        <Col xs={12} md={2}>
           <Form.Group>
             <Form.Label>Filtrar por categoría</Form.Label>
             <Form.Select
@@ -140,13 +172,15 @@ const Admin = () => {
               onChange={e => setFiltroCategoria(e.target.value)}
             >
               <option value="">Todas</option>
-              <option value="Indumentaria">Indumentaria</option>
-              <option value="Calzado">Calzado</option>
-              <option value="Accesorios">Accesorios</option>
+              <option value="computadora">Computadora</option>
+              <option value="escritorio">Escritorio</option>
+              <option value="fichero">Fichero</option>
+              <option value="sillas">Sillas</option>
             </Form.Select>
           </Form.Group>
         </Col>
-        <Col md={4}>
+
+        <Col xs={12} md={2}>
           <Form.Group>
             <Form.Label>Filtrar por talle</Form.Label>
             <Form.Control
@@ -157,50 +191,68 @@ const Admin = () => {
             />
           </Form.Group>
         </Col>
+
+        <Col xs={12} md={2}>
+          <Form.Group>
+            <Form.Label>Buscar por nombre</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ej: computadora, fichero..."
+              value={filtroNombre}
+              onChange={e => setFiltroNombre(e.target.value)}
+            />
+          </Form.Group>
+        </Col>
       </Row>
 
-      <Row className="mt-4">
-        {productos
-          .filter(p => {
-            const coincideCategoria = filtroCategoria ? p.categoria === filtroCategoria : true;
-            const coincideTalle = filtroTalle
-              ? p.talles?.some(t => t.toLowerCase() === filtroTalle.toLowerCase())
-              : true;
-            return coincideCategoria && coincideTalle;
-          })
-          .map(p => (
-            <Col key={p.id} xs={12}>
-              <Card className="mb-3 d-flex flex-row align-items-center">
+
+
+
+      <Row className="mt-3">
+        {productosFiltrados.map(p => (
+          <Col key={p.id} xs={12} sm={6} md={6}>
+            <Card className="mb-3 d-flex flex-row align-items-stretch" style={{ minHeight: '140px' }}>
+              {p.imagenes?.[0] && (
                 <Card.Img
-                  src={p.imagenes?.[0]}
-                  style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                  src={p.imagenes[0]}
+                  style={{
+                    width: '120px',
+                    objectFit: 'cover',
+                  }}
                 />
-                <Card.Body>
-                  <Card.Title>{p.nombre}</Card.Title>
-                  <Card.Text>
+              )}
+              <Card.Body className="d-flex flex-column justify-content-between">
+                <div>
+                  <Card.Title style={{ fontSize: '1rem' }}>{p.nombre}</Card.Title>
+                  <Card.Text style={{ fontSize: '0.85rem' }}>
                     <small className="text-muted">
                       <strong>Código:</strong> {p.id} | <strong>Categoría:</strong> {p.categoria}
-                    </small><br />
+                    </small>
+                    <br />
                     <strong>Precio:</strong> ${p.precio} | <strong>Stock:</strong> {p.stock}
                     {Array.isArray(p.talles) && p.talles.length > 0 && (
                       <> | <strong>Talles:</strong> {p.talles.join(', ')}</>
                     )}
                   </Card.Text>
-                  <p style={{ whiteSpace: 'pre-line' }}>{p.descripcion}</p>
-                  <div className="d-flex gap-2">
-                    <Button variant="outline-primary" onClick={() => abrirModalEditar(p)}>
-                      Editar
-                    </Button>
-                    <Button variant="outline-danger" onClick={() => eliminarProducto(p.id)}>
-                      Eliminar
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
+                </div>
+                <p style={{ whiteSpace: 'pre-line', maxHeight: '80px', overflowY: 'auto', marginBottom: '0.5rem' }}>
+                  {p.descripcion}
+                </p>
+                <div className="d-flex flex-wrap gap-2 mt-2">
+                  <Button size="sm" variant="outline-primary" onClick={() => abrirModalEditar(p)}>
+                    Editar
+                  </Button>
+                  <Button size="sm" variant="outline-danger" onClick={() => eliminarProducto(p.id)}>
+                    Eliminar
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
       </Row>
 
+      {/* Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{modoEdicion ? 'Editar producto' : 'Nuevo producto'}</Modal.Title>
@@ -212,7 +264,8 @@ const Admin = () => {
                 <Form.Group className="mb-2">
                   <Form.Label>Nombre</Form.Label>
                   <Form.Control
-                    value={productoActual?.nombre}
+                    required
+                    value={productoActual?.nombre || ''}
                     onChange={e => setProductoActual(prev => ({ ...prev, nombre: e.target.value }))}
                   />
                 </Form.Group>
@@ -220,28 +273,29 @@ const Admin = () => {
                   <Form.Label>Precio</Form.Label>
                   <Form.Control
                     type="number"
-                    value={productoActual?.precio}
+                    required
+                    value={productoActual?.precio || ''}
                     onChange={e => setProductoActual(prev => ({ ...prev, precio: e.target.value }))}
                   />
                 </Form.Group>
                 <Form.Group className="mb-2">
                   <Form.Label>Categoría</Form.Label>
                   <Form.Select
-                    value={productoActual?.categoria}
+                    required
+                    value={productoActual?.categoria || ''}
                     onChange={e => setProductoActual(prev => ({ ...prev, categoria: e.target.value }))}
                   >
                     <option value="">Seleccionar</option>
-                    <option value="computadora">Computadoras</option>
-                    <option value="escritorio">Escritorios</option>
-                    <option value="fichero">Ficheros</option>
-                    <option value="sillas">Sillas</option>
+                    <option value="Indumentaria">Indumentaria</option>
+                    <option value="Calzado">Calzado</option>
+                    <option value="Accesorios">Accesorios</option>
                   </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-2">
                   <Form.Label>Stock</Form.Label>
                   <Form.Control
                     type="number"
-                    value={productoActual?.stock}
+                    value={productoActual?.stock || ''}
                     onChange={e => setProductoActual(prev => ({ ...prev, stock: e.target.value }))}
                   />
                 </Form.Group>
@@ -250,7 +304,7 @@ const Admin = () => {
                   <Form.Control
                     type="text"
                     placeholder="Ej: 38, 39, 40 o S, M, L"
-                    value={productoActual?.tallesTexto}
+                    value={productoActual?.tallesTexto || ''}
                     onChange={e =>
                       setProductoActual(prev => ({
                         ...prev,
@@ -271,15 +325,22 @@ const Admin = () => {
                   <Form.Control
                     as="textarea"
                     rows={6}
-                    value={productoActual?.descripcion}
+                    value={productoActual?.descripcion || ''}
                     onChange={e => setProductoActual(prev => ({ ...prev, descripcion: e.target.value }))}
                   />
                 </Form.Group>
+
                 <Form.Group className="mb-2">
                   <Form.Label>Subir imagen a Cloudinary</Form.Label>
                   <Form.Control type="file" onChange={subirImagen} disabled={cargando} />
-                  {cargando && <Spinner animation="border" size="sm" className="mt-2" />}
+                  {cargando && (
+                    <div className="mt-2 d-flex align-items-center gap-2">
+                      <Spinner animation="border" size="sm" />
+                      <span>Subiendo imagen...</span>
+                    </div>
+                  )}
                 </Form.Group>
+
                 {productoActual?.imagenes?.length > 0 && (
                   <div className="mt-3 d-flex flex-wrap gap-2">
                     {productoActual.imagenes.map((url, index) => (
@@ -287,11 +348,14 @@ const Admin = () => {
                         <Image
                           src={url}
                           thumbnail
+                          fluid
                           style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                         />
                         <Button
                           variant="danger"
                           size="sm"
+                          title="Eliminar imagen"
+                          aria-label="Eliminar imagen"
                           className="position-absolute top-0 end-0"
                           onClick={() => eliminarImagen(index)}
                         >
@@ -306,10 +370,10 @@ const Admin = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
+          <Button variant="secondary" onClick={() => setShowModal(false)} disabled={cargando}>
             Cancelar
           </Button>
-          <Button variant="primary" onClick={guardarProducto}>
+          <Button variant="primary" onClick={guardarProducto} disabled={cargando}>
             Guardar
           </Button>
         </Modal.Footer>
@@ -319,3 +383,8 @@ const Admin = () => {
 };
 
 export default Admin;
+
+
+
+
+
