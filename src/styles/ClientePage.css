@@ -1,0 +1,24 @@
+.client-page {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.client-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.client-info-section,
+.client-orders-section {
+  margin-bottom: 30px;
+}
+
+.client-card,
+.order-card {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 6px;
+  background: #f9f9f9;
+  margin-bottom: 15px;
+}
+
