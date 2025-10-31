@@ -16,7 +16,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import FooterComponent from './components/footerComponent';
 import NavigateApp from './components/NavigateApp';
 
-import HomePage from './pages/HomePage';
+import HomePage from './pages/homePage';
 import CarritoPage from './pages/CarritoPage';
 import ComputadorasPage from './pages/ComputadorasPage';
 import ContactoPage from './pages/contactoPage';
