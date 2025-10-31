@@ -1,28 +1,21 @@
-import InfoProducto from '../components/InfoProducto';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Producto from '../components/Producto';
 
 const SillasPage = () => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    const guardados = localStorage.getItem('productos-admin');
-    if (guardados) {
-      const todos = JSON.parse(guardados);
-      const filtrados = todos.filter(p => p.categoria.toLowerCase() === 'sillas');
-      setProductos(filtrados);
-    }
+    const guardados = JSON.parse(localStorage.getItem('productos')) || [];
+    const filtrados = guardados.filter(p =>
+      p.categoria?.toLowerCase() === 'sillas'
+    );
+    setProductos(filtrados);
   }, []);
 
-  return (
-    <div className="container py-4">
-      <h2>Sillas</h2>
-      <div className="d-flex flex-wrap gap-3">
-        {productos.map(p => (
-          <InfoProducto key={p.id} producto={p} />
-        ))}
-      </div>
-    </div>
-  );
+  return <Producto titulo="Sillas" productos={productos} />;
 };
 
 export default SillasPage;
+
+
+

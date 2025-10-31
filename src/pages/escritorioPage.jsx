@@ -1,28 +1,19 @@
-import InfoProducto from '../components/InfoProducto';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Producto from '../components/Producto';
 
-const EscritorioPage = () => {
+const EscritoriosPage = () => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
-    const guardados = localStorage.getItem('productos-admin');
-    if (guardados) {
-      const todos = JSON.parse(guardados);
-      const filtrados = todos.filter(p => p.categoria.toLowerCase() === 'escritorio');
-      setProductos(filtrados);
-    }
+    const guardados = JSON.parse(localStorage.getItem('productos')) || [];
+    const filtrados = guardados.filter(p =>
+      p.categoria?.toLowerCase() === 'escritorios'
+    );
+    setProductos(filtrados);
   }, []);
 
-  return (
-    <div className="container py-4">
-      <h2>Escritorios</h2>
-      <div className="d-flex flex-wrap gap-3">
-        {productos.map(p => (
-          <InfoProducto key={p.id} producto={p} />
-        ))}
-      </div>
-    </div>
-  );
+  return <Producto titulo="Escritorios" productos={productos} />;
 };
 
-export default EscritorioPage;
+export default EscritoriosPage;
+
