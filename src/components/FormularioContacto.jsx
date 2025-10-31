@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import React, { useState, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import '../styles/FormularioContacto.css';
 import logoworkify from '../assets/img/logoworkify.png';
@@ -13,82 +13,106 @@ export default function FormularioContacto() {
   const [error, setError] = useState(false);
 
   const handleSubmit = e => {
-    e.preventDefault();
+  e.preventDefault();
 
-    emailjs
-      .sendForm(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        EMAILJS_PUBLIC_KEY
-      )
-      .then(() => {
-        setEnviado(true);
-        setError(false);
-        formRef.current.reset();
-      })
-      .catch((error) => {
+  emailjs
+    .sendForm(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      formRef.current,
+      EMAILJS_PUBLIC_KEY
+    )
+    .then(() => {
+      setEnviado(true);
+      setError(false);
+      formRef.current.reset(); // ✅ limpia el formulario
+    })
+    .catch((error) => {
       console.error('Error al enviar:', error);
-      alert('Hubo un problema al enviar el mensaje ❌');
+      setError(true);
     });
-  };
+};
 
-  return (
-    <main>
-      <div className="container my-5">
-        <div className="row align-items-center justify-content-center g-4">
-          <div className="col-12 col-md-5 text-center">
-            <img
-              src={logoworkify}
-              alt="Logo de workify"
-              style={{ width: '300px', height: 'auto' }}
-            />
-          </div>
 
-          <div className="col-12 col-md-6">
-            <h2 className="text-center mb-4">Contáctanos</h2>
 
-            {enviado && (
-              <div className="alert alert-success">¡Mensaje enviado con éxito!</div>
-            )}
-            {error && (
-              <div className="alert alert-danger">Hubo un error al enviar el mensaje.</div>
-            )}
 
-            <form ref={formRef} onSubmit={handleSubmit} className="form">
-              <label htmlFor="name">Nombre:</label>
+return (
+  <div className="container my-5">
+    <div className="row justify-content-center align-items-center g-4">
+      {/* Logo */}
+      <div className="col-12 text-center">
+        <img
+          src={logoworkify}
+          alt="Logo de Workify"
+          className="img-fluid mb-3"
+          style={{ maxWidth: '200px' }}
+        />
+      </div>
+
+      {/* Formulario */}
+      <div className="col-12">
+        <div className="card shadow-sm p-4 mx-auto w-100" style={{ maxWidth: '500px' }}>
+          <h2 className="text-center mb-4">Contáctanos</h2>
+
+          {enviado && (
+            <div className="alert alert-success text-center">
+              ¡Mensaje enviado con éxito!
+            </div>
+          )}
+          {error && (
+            <div className="alert alert-danger text-center">
+              Hubo un error al enviar el mensaje.
+            </div>
+          )}
+
+          <form ref={formRef} onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="name" className="form-label">Nombre:</label>
               <input
                 type="text"
                 id="name"
                 name="name"
+                className="form-control"
                 placeholder="Tu nombre"
                 required
               />
+            </div>
 
-              <label htmlFor="email">Correo electrónico:</label>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">Correo electrónico:</label>
               <input
                 type="email"
                 id="email"
                 name="email"
+                className="form-control"
                 placeholder="Tu correo"
                 required
               />
+            </div>
 
-              <label htmlFor="message">Mensaje:</label>
+            <div className="mb-3">
+              <label htmlFor="message" className="form-label">Mensaje:</label>
               <textarea
                 id="message"
                 name="message"
+                className="form-control"
                 placeholder="Escribe tu mensaje aquí..."
                 rows="6"
                 required
               />
+            </div>
 
-              <button type="submit" id="button">Enviar</button>
-            </form>
-          </div>
+            <div className="d-grid">
+              <button type="submit" className="btn btn-primary">
+                Enviar
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-    </main>
-  );
-}
+    </div>
+  </div>
+);
 
+
+}

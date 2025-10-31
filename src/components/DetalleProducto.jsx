@@ -13,10 +13,11 @@ function DetalleProducto() {
   const [talleSeleccionado, setTalleSeleccionado] = useState('');
   const [cantidad, setCantidad] = useState(1);
   const [mostrarToast, setMostrarToast] = useState(false);
+  const [expandirDescripcion, setExpandirDescripcion] = useState(false);
   const { agregarProducto } = useContext(CarritoContext);
 
   useEffect(() => {
-    const guardados = localStorage.getItem('productos-admin');
+    const guardados = localStorage.getItem('productos');
     if (guardados) {
       const lista = JSON.parse(guardados);
       const encontrado = lista.find(p => p.id === id || p.id === parseInt(id));
@@ -41,6 +42,13 @@ function DetalleProducto() {
     setTimeout(() => setMostrarToast(false), 3000);
   };
 
+  const oraciones = producto.descripcion
+    ?.split('.')
+    .filter(oracion => oracion.trim() !== '');
+
+  const descripcionCorta = oraciones.slice(0, 2);
+  const descripcionCompleta = oraciones.slice(2);
+
   return (
     <Container className="py-5">
       <Row className="align-items-start">
@@ -58,8 +66,24 @@ function DetalleProducto() {
           <h2>{producto.nombre}</h2>
           <p className="text-muted">Código: {producto.id}</p>
           <p className="text-muted">Categoría: {producto.categoria}</p>
-          <p>{producto.descripcion}</p>
-          <h4 className="text-success">${producto.precio}</h4>
+
+          <h5>Descripción</h5>
+          {descripcionCorta.map((oracion, i) => (
+            <p key={i}>{oracion.trim()}.</p>
+          ))}
+          {expandirDescripcion && descripcionCompleta.map((oracion, i) => (
+            <p key={`extra-${i}`}>{oracion.trim()}.</p>
+          ))}
+          {oraciones.length > 2 && (
+            <button
+              className="btn btn-link p-0"
+              onClick={() => setExpandirDescripcion(prev => !prev)}
+            >
+              {expandirDescripcion ? 'Ver menos ▲' : 'Ver más ▼'}
+            </button>
+          )}
+
+          <h4 className="text-success mt-3">${producto.precio}</h4>
           <Row className="mb-3">
             {producto.talles?.length > 0 && (
               <Col xs={6}>

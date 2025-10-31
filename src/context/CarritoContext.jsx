@@ -1,40 +1,30 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
+import {
+  cargarCarrito,
+  guardarCarrito,
+  eliminarCarrito,
+  fusionarCarritos,
+} from './carritoStorage';
 
 export const CarritoContext = createContext();
 
 export function CarritoProvider({ children }) {
   const { usuario } = useContext(AuthContext);
+  const [carrito, setCarrito] = useState(() => cargarCarrito(usuario));
 
-  const claveAnonima = 'carrito-anonimo';
-  const claveUsuario = usuario ? `carrito-${usuario.id}` : null;
-
- 
-  const obtenerCarritoInicial = () => {
-    if (usuario) {
-      const carritoUsuario = localStorage.getItem(claveUsuario);
-      if (carritoUsuario) return JSON.parse(carritoUsuario);
-
-      const carritoAnonimo = localStorage.getItem(claveAnonima);
-      if (carritoAnonimo) {
-        localStorage.setItem(claveUsuario, carritoAnonimo);
-        localStorage.removeItem(claveAnonima);
-        return JSON.parse(carritoAnonimo);
-      }
-
-      return [];
-    } else {
-      const anonimo = localStorage.getItem(claveAnonima);
-      return anonimo ? JSON.parse(anonimo) : [];
-    }
-  };
-
-  const [carrito, setCarrito] = useState(obtenerCarritoInicial);
-
- 
   useEffect(() => {
-    const clave = usuario ? claveUsuario : claveAnonima;
-    localStorage.setItem(clave, JSON.stringify(carrito));
+    if (usuario) {
+      const fusionado = fusionarCarritos(usuario);
+      setCarrito(fusionado);
+    } else {
+      const anonimo = cargarCarrito(null);
+      setCarrito(anonimo);
+    }
+  }, [usuario]);
+
+  useEffect(() => {
+    guardarCarrito(usuario, carrito);
   }, [carrito, usuario]);
 
   const agregarProducto = (producto, talle, cantidad = 1) => {
@@ -42,30 +32,22 @@ export function CarritoProvider({ children }) {
       typeof producto.imagenes?.[0] === 'string'
         ? producto.imagenes[0]
         : producto.imagenes?.[0]?.url ||
-        producto.imagen ||
-        producto.url ||
-        '/assets/img/default.png';
+          producto.imagen ||
+          producto.url ||
+          '/assets/img/default.png';
 
     const idUnico = `${producto.id}-${talle}`;
     const existe = carrito.find(item => item.id === idUnico);
 
-    if (existe) {
-      const actualizado = carrito.map(item =>
-        item.id === idUnico
-          ? { ...item, cantidad: item.cantidad + cantidad }
-          : item
-      );
-      setCarrito(actualizado);
-    } else {
-      const nuevoProducto = {
-        ...producto,
-        talle,
-        imagen,
-        id: idUnico,
-        cantidad,
-      };
-      setCarrito(prev => [...prev, nuevoProducto]);
-    }
+    const actualizado = existe
+      ? carrito.map(item =>
+          item.id === idUnico
+            ? { ...item, cantidad: item.cantidad + cantidad }
+            : item
+        )
+      : [...carrito, { ...producto, talle, imagen, id: idUnico, cantidad }];
+
+    setCarrito(actualizado);
   };
 
   const eliminarProducto = (id) => {
@@ -82,8 +64,7 @@ export function CarritoProvider({ children }) {
 
   const vaciarCarrito = () => {
     setCarrito([]);
-    const clave = usuario ? claveUsuario : claveAnonima;
-    localStorage.removeItem(clave);
+    eliminarCarrito(usuario);
   };
 
   return (
@@ -94,6 +75,4 @@ export function CarritoProvider({ children }) {
     </CarritoContext.Provider>
   );
 }
-
-
 

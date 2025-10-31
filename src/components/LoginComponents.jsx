@@ -9,31 +9,67 @@ const LoginComponent = () => {
   const navigate = useNavigate();
   const { logIn } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (correo === 'admin@workify.com' && contraseña === '1234') {
-      const usuario = {
-        id: 'admin',
-        nombre: 'Administrador',
-        email: correo,
-        rol: 'admin',
-      };
-      logIn(usuario);
-      navigate('/admin');
-    } else if (correo === 'cliente@workify.com' && contraseña === '1234') {
-      const usuario = {
-        id: 'cliente01',
-        nombre: 'Cliente Demo',
-        email: correo,
-        rol: 'cliente',
-      };
-      logIn(usuario);
-      navigate('/home');
-    } else {
-      alert('Correo o contraseña incorrectos');
+ 
+  const registrarEnAdmin = (usuario) => {
+    const usuariosAdmin = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
+    const existe = usuariosAdmin.some(u => u.id === usuario.id);
+    if (!existe) {
+      localStorage.setItem('usuarios-admin', JSON.stringify([...usuariosAdmin, usuario]));
     }
   };
+
+  const handleSubmit = (e) => {
+  e.preventDefault();
+  const usuarios = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
+
+  const user = usuarios.find(
+    u => u.email === correo && u.contraseña === contraseña
+  );
+
+  if (user) {
+    if (user.bloqueado) {
+      alert('Tu cuenta ha sido bloqueada por el administrador.');
+      return;
+    }
+
+    logIn(user);
+    if (user.rol === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/home');
+    }
+    return;
+  }
+  if (correo === 'admin@workify.com' && contraseña === '1234') {
+    const usuario = {
+      id: 'admin',
+      nombre: 'Administrador',
+      email: correo,
+      rol: 'admin',
+      bloqueado: false,
+    };
+    logIn(usuario);
+    navigate('/admin');
+    return;
+  }
+
+  if (correo === 'cliente@workify.com' && contraseña === '1234') {
+    const usuario = {
+      id: 'cliente01',
+      nombre: 'Cliente Demo',
+      email: correo,
+      rol: 'cliente',
+      bloqueado: false,
+    };
+    logIn(usuario);
+    navigate('/home');
+    return;
+  }
+  alert('Correo o contraseña incorrectos');
+};
+
+
+
 
 
   return (
@@ -72,7 +108,7 @@ const LoginComponent = () => {
               <Link to="/404" className="text-decoration-none">Olvidé mi contraseña</Link>
             </div>
             <div className="d-grid mb-3">
-              <button type="submit" className="btn btn-danger">Iniciar sesión</button>
+              <button type="submit" className="btn btn-primary">Iniciar sesión</button>
             </div>
           </form>
 
@@ -109,4 +145,5 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
+
 
