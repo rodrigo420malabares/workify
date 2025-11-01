@@ -124,7 +124,7 @@ const ProductoForm = ({ productoInicial, onGuardar, onCancelar }) => {
     <Form>
       <Row>
         <Col md={6}>
-          <Form.Group className="mb-3">
+          <Form.Group className="mb-6">
             <Form.Label>Nombre</Form.Label>
             <Form.Control
               name="nombre"
