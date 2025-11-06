@@ -16,11 +16,18 @@ export const NavigateApp = ({ logOut }) => {
   const auth = !!usuario;
 
   const calcularTotal = () => {
-    return carrito.reduce((total, item) => {
-      const precioNumerico = parseFloat(item.precio?.replace(/[^0-9.-]+/g, '') || '0');
-      return total + precioNumerico;
-    }, 0);
-  };
+  if (!Array.isArray(carrito)) return 0;
+
+  return carrito.reduce((total, item) => {
+    const precioNumerico = typeof item.precio === 'string'
+      ? parseFloat(item.precio.replace(/[^0-9.-]+/g, '')) || 0
+      : Number(item.precio) || 0;
+
+    return total + precioNumerico * item.cantidad;
+  }, 0);
+};
+
+
   const handleLogout = async () => {
     await logOut();
     navigate("/home", { replace: true });
@@ -121,7 +128,7 @@ export const NavigateApp = ({ logOut }) => {
                   ))}
                   <NavDropdown.Divider />
                   <NavDropdown.Item disabled>
-                    Total: ${calcularTotal().toLocaleString('es-AR')}
+                 <h4>Total: ${calcularTotal()?.toLocaleString('es-AR') || '0'}</h4>
                   </NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/Carrito">
                     Ver carrito completo

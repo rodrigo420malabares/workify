@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Button, Badge } from 'react-bootstrap';
@@ -114,9 +116,10 @@ const Producto = ({ titulo, productos }) => {
                   <Card.Img
                     variant="top"
                     src={producto.imagen || producto.imagenes?.[0] || '/placeholder.jpg'}
-                    alt={producto.nombre}
+                    alt={producto.nombre || 'Producto'}
                     style={{
-                      height: '180px',
+                      height: '150px',
+                      width:'150px',
                       objectFit: 'cover',
                       borderTopLeftRadius: '0.5rem',
                       borderTopRightRadius: '0.5rem'
@@ -134,7 +137,9 @@ const Producto = ({ titulo, productos }) => {
                   )}
                 </div>
                 <Card.Body style={{ padding: '0.75rem' }}>
-                  <h3 style={{ fontSize: '1.1rem', color: '#333' }}>${producto.precio}</h3>
+                  <h3 style={{ fontSize: '1.1rem', color: '#333' }}>
+                    ${Number(producto.precio).toLocaleString('es-AR')}
+                  </h3>
                   <Card.Text>{producto.nombre}</Card.Text>
                 </Card.Body>
               </Card>
@@ -162,5 +167,4 @@ const Producto = ({ titulo, productos }) => {
 };
 
 export default Producto;
-
 
