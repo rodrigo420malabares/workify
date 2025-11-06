@@ -14,7 +14,7 @@ const error404Page = () => {
           No te preocupes, puedes volver a la página de inicio.
         </p>
         
-        {/* El componente Link de react-router-dom te permite navegar sin recargar la página */}
+        {}
         <Link to="../home" className="home-button">
           Volver a la Tienda
         </Link>

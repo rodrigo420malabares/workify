@@ -1,24 +1,24 @@
-/* Estilos para el contenedor del error */
+
 .error-404-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Espacio superior e inferior para centrar verticalmente entre nav y footer */
+ 
   padding: 80px 20px; 
   text-align: center;
-  min-height: 50vh; /* Asegura que ocupe al menos la mitad de la altura visible */
+  min-height: 50vh; 
 }
 
-/* Estilos para el número "404" */
+
 .error-title {
-  font-size: 8rem; /* Tamaño grande para destacar */
+  font-size: 8rem; 
   font-weight: 700;
-  color: #3f51b5; /* Un color que destaque, similar al azul de tu navbar */
+  color: #3f51b5; 
   margin-bottom: 0.5rem;
 }
 
-/* Estilos para el subtítulo */
+
 .error-subtitle {
   font-size: 2rem;
   font-weight: 500;
@@ -27,7 +27,7 @@
   margin-bottom: 1rem;
 }
 
-/* Estilos para el mensaje */
+
 .error-message {
   font-size: 1.1rem;
   color: #555;
@@ -35,14 +35,14 @@
   margin-bottom: 2rem;
 }
 
-/* Estilos para el botón de volver a inicio */
+
 .home-button {
-  background-color: #007bff; /* Color de botón primario (ajusta a tu color principal) */
+  background-color: #007bff; 
   color: white;
   padding: 12px 25px;
   border: none;
   border-radius: 5px;
-  text-decoration: none; /* Quita el subrayado del Link */
+  text-decoration: none; 
   font-weight: 600;
   font-size: 1rem;
   transition: background-color 0.3s ease;
@@ -50,5 +50,5 @@
 }
 
 .home-button:hover {
-  background-color: #0056b3; /* Un tono más oscuro al pasar el mouse */
+  background-color: #0056b3; 
 }

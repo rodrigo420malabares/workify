@@ -34,7 +34,7 @@ const productosPorCodigo = [
   }
 ];
 
-const SillasPage = () => {
+const sillasPage = () => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
@@ -59,5 +59,5 @@ const SillasPage = () => {
   return <Producto titulo="Sillas" productos={productos} />;
 };
 
-export default SillasPage;
+export default sillasPage;
 

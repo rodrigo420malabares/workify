@@ -5,7 +5,7 @@ import ListaProductos from '../components/admin/ListaProductos';
 import ProductoModal from '../components/admin/ProductoModal';
 import AdminUsuarios from '../components/admin/AdminUsuarios';
 
-const Admin = () => {
+const admin = () => {
   const [productos, setProductos] = useState(() => {
     const guardados = localStorage.getItem('productos'); // 🔁 clave unificada
     return guardados ? JSON.parse(guardados) : [];
@@ -92,5 +92,5 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default admin;
 

@@ -8,7 +8,7 @@ export default function ClientPage() {
       </header>
 
       <main className="client-content">
-        {/* Tarjeta de información del cliente */}
+        {}
         <section className="client-info-section">
           <h2>Información del Cliente</h2>
           <div className="client-card">
@@ -19,7 +19,7 @@ export default function ClientPage() {
           </div>
         </section>
 
-        {/* Historial de compras */}
+        {}
         <section className="client-orders-section">
           <h2>Historial de Compras</h2>
           <div className="order-card">

@@ -3,7 +3,7 @@ import { Container, Row, Col, Image, Button } from 'react-bootstrap';
 import { CarritoContext } from '../context/CarritoContext';
 import { BsTrash } from 'react-icons/bs';
 
-const Carrito = () => {
+const carritoPage = () => {
   const { carrito, agregarProducto, eliminarProducto, vaciarCarrito } = useContext(CarritoContext);
 
   const calcularTotal = () => {
@@ -96,5 +96,5 @@ const Carrito = () => {
   );
 };
 
-export default Carrito;
+export default carritoPage;
 
