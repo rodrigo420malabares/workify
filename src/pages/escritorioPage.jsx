@@ -36,7 +36,7 @@ const productosPorCodigo = [
   }
 ];
 
-const EscritoriosPage = () => {
+const escritoriosPage = () => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
@@ -61,5 +61,5 @@ const EscritoriosPage = () => {
   return <Producto titulo="Escritorios" productos={productos} />;
 };
 
-export default EscritoriosPage;
+export default escritoriosPage;
 

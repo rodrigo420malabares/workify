@@ -32,7 +32,7 @@ const productosPorCodigo = [
   }
 ];
 
-const FicherosPage = () => {
+const ficherosPage = () => {
   const [productos, setProductos] = useState([]);
 
   useEffect(() => {
@@ -57,4 +57,4 @@ const FicherosPage = () => {
   return <Producto titulo="Ficheros" productos={productos} />;
 };
 
-export default FicherosPage;
+export default ficherosPage;

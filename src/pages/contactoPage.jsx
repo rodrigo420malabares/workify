@@ -1,7 +1,7 @@
 import React from 'react'
 import FormularioContacto from '../components/FormularioContacto'
 
-const ContactoPage = () => {
+const contactoPage = () => {
   return (
     <>
     <FormularioContacto/>
@@ -9,4 +9,4 @@ const ContactoPage = () => {
   )
 }
 
-export default ContactoPage
+export default contactoPage
