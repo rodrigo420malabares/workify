@@ -13,6 +13,17 @@ const Carrito = () => {
     }, 0);
   };
 
+  const extraerProductoBase = (item) => ({
+    id: item.id.replace(`-${item.talle}`, ''),
+    nombre: item.nombre,
+    precio: item.precio,
+    imagenes: [item.imagen],
+    descripcion: item.descripcion,
+    categoria: item.categoria,
+    stock: item.stock,
+    talles: item.talles,
+  });
+
   if (carrito.length === 0) {
     return (
       <Container className="py-5 text-center">
@@ -46,21 +57,7 @@ const Carrito = () => {
           <Col xs={12} md={4} className="text-md-end d-flex justify-content-end align-items-center gap-2">
             <Button
               variant="outline-secondary"
-              onClick={() => {
-                const productoBase = {
-                  id: item.id.split('-')[0], 
-                  nombre: item.nombre,
-                  precio: item.precio,
-                  imagenes: [item.imagen],
-                  descripcion: item.descripcion,
-                  categoria: item.categoria,
-                  stock: item.stock,
-                  talles: item.talles,
-                };
-                agregarProducto(productoBase, item.talle, 1);
-              }}
-
-
+              onClick={() => agregarProducto(extraerProductoBase(item), item.talle, 1)}
               title="Sumar unidad"
             >
               +
@@ -100,3 +97,4 @@ const Carrito = () => {
 };
 
 export default Carrito;
+

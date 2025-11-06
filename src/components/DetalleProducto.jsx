@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { CarritoContext } from '../context/CarritoContext';
-
 import MiniaturasCarrusel from '../components/carrusel/MiniaturasCarrusel';
 import ImagenPrincipal from '../components/carrusel/ImagenPrincipal';
 
-function DetalleProducto() {
+const DetalleProducto = () => {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -17,13 +16,12 @@ function DetalleProducto() {
   const { agregarProducto } = useContext(CarritoContext);
 
   useEffect(() => {
-    const guardados = localStorage.getItem('productos');
-    if (guardados) {
-      const lista = JSON.parse(guardados);
-      const encontrado = lista.find(p => p.id === id || p.id === parseInt(id));
-      setProducto(encontrado);
-    }
-  }, [id]);
+  const guardados = JSON.parse(localStorage.getItem('productos')) || [];
+  const encontrado = guardados.find(p => p.id === id || p.id === parseInt(id));
+  setProducto(encontrado);
+}, [id]);
+
+
 
   if (!producto) return <h2 className="text-center py-5">Producto no encontrado</h2>;
 
@@ -42,10 +40,7 @@ function DetalleProducto() {
     setTimeout(() => setMostrarToast(false), 3000);
   };
 
-  const oraciones = producto.descripcion
-    ?.split('.')
-    .filter(oracion => oracion.trim() !== '');
-
+  const oraciones = producto.descripcion?.split('.').filter(o => o.trim() !== '');
   const descripcionCorta = oraciones.slice(0, 2);
   const descripcionCompleta = oraciones.slice(2);
 
@@ -68,17 +63,12 @@ function DetalleProducto() {
           <p className="text-muted">Categoría: {producto.categoria}</p>
 
           <h5>Descripción</h5>
-          {descripcionCorta.map((oracion, i) => (
-            <p key={i}>{oracion.trim()}.</p>
-          ))}
-          {expandirDescripcion && descripcionCompleta.map((oracion, i) => (
-            <p key={`extra-${i}`}>{oracion.trim()}.</p>
+          {descripcionCorta.map((o, i) => <p key={i}>{o.trim()}.</p>)}
+          {expandirDescripcion && descripcionCompleta.map((o, i) => (
+            <p key={`extra-${i}`}>{o.trim()}.</p>
           ))}
           {oraciones.length > 2 && (
-            <button
-              className="btn btn-link p-0"
-              onClick={() => setExpandirDescripcion(prev => !prev)}
-            >
+            <button className="btn btn-link p-0" onClick={() => setExpandirDescripcion(p => !p)}>
               {expandirDescripcion ? 'Ver menos ▲' : 'Ver más ▼'}
             </button>
           )}
@@ -129,10 +119,7 @@ function DetalleProducto() {
       </Row>
 
       {mostrarToast && (
-        <div
-          className="position-fixed bottom-0 end-0 p-3"
-          style={{ zIndex: 9999 }}
-        >
+        <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 9999 }}>
           <div className="toast show align-items-center text-white bg-success border-0">
             <div className="d-flex">
               <div className="toast-body">
@@ -149,7 +136,7 @@ function DetalleProducto() {
       )}
     </Container>
   );
-}
+};
 
 export default DetalleProducto;
 

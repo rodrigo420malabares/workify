@@ -18,10 +18,10 @@ import NavigateApp from './components/NavigateApp';
 
 import HomePage from './pages/homePage';
 import CarritoPage from './pages/carritoPage';
-import ComputadorasPage from './pages/computadorasPage';
+import ComputadorasPage from './pages/ComputadorasPage';
 import ContactoPage from './pages/contactoPage';
 import Error404Page from './pages/error404Page';
-import EscritorioPage from './pages/escritorioPage';
+import EscritorioPage from './pages/EscritorioPage';
 import FicheroPage from './pages/ficheroPage';
 import LoginPage from './pages/loginPage';
 import NosotrosPage from './pages/nosotrosPage';
