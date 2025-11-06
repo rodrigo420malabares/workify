@@ -5,6 +5,7 @@ import { CarritoContext } from '../context/CarritoContext';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/NavigateApp.css';
 import logoworkify from '../assets/img/logoworkify.png';
+import SearchInput from './SearchInput';
 
 export const NavigateApp = ({ logOut }) => {
   const { carrito } = useContext(CarritoContext);
@@ -51,8 +52,10 @@ export const NavigateApp = ({ logOut }) => {
               <NavDropdown.Item as={NavLink} to="/Fichero">Ficheros</NavDropdown.Item>
               <NavDropdown.Item as={NavLink} to="/Escritorio">Escritorios</NavDropdown.Item>
             </NavDropdown>
+            
             <Nav.Link as={NavLink} to="/Nosotros">Nosotros</Nav.Link>
             <Nav.Link as={NavLink} to="/Contacto">Contacto</Nav.Link>
+            <SearchInput/>
           </Nav>
 
           <div className="d-flex align-items-center gap-2">
