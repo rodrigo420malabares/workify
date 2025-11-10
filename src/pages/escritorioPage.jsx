@@ -16,7 +16,7 @@ const productosPorCodigo = [
       'https://res.cloudinary.com/dqzffyx3w/image/upload/v1760576573/escritorio2_hodndy.webp'
     ],
     fechaCreacion: '2025-11-01T13:00:00.000Z'
-  },,
+  },
   
   {
     id: 'desk-002',

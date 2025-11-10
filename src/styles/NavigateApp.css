@@ -1,9 +1,64 @@
-.nav-link {
-    color: white;
-    font-size: 1.5rem;
-    text-decoration: none;
+
+.workify-header {
+    background-color: #003366 ; /* Azul Marino Oscuro */
+    padding: 10px 0; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+
+.workify-logo {
+    width: 130px; 
+    height: auto;
+    margin-right: 20px;
 }
 
 
 
+.workify-nav-links .nav-link,
+.workify-nav-links .dropdown-toggle {
+    color: white !important;
+    font-size: 1rem; 
+    font-weight: 500; 
+    text-decoration: none;
+    padding: 10px 15px; 
+    transition: color 0.3s, border-bottom 0.3s;
+}
 
+.workify-nav-links .nav-link:hover,
+.workify-nav-links .dropdown-toggle:hover {
+    color: #a0c4ff !important; 
+    border-bottom: 2px solid #a0c4ff; 
+}
+
+
+.d-flex .form-control {
+    border-radius: 4px 0 0 4px; 
+    border: none !important;
+}
+.d-flex .btn-outline-light {
+    border-radius: 0 4px 4px 0 !important;
+    border: 1px solid white !important;
+    background-color: white !important;
+    color: #003366 !important; 
+}
+
+
+.workify-btn-login {
+    border-width: 2px !important; 
+    font-weight: 600 !important;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.workify-btn-login:hover {
+    background-color: white !important;
+    color: #003366 !important; 
+}
+
+.bi-cart-fill {
+    font-size: 1.5rem !important; 
+}
+
+
+#carrito-dropdown::after {
+    color: white;
+}

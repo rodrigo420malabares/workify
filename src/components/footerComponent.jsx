@@ -3,15 +3,16 @@ import { Container, Row, Col, Stack, } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom';
 import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import logoworkify from '../assets/img/logoworkify.png';
+import '../styles/footerComponent.css'
 
 function footerComponent() {
   return (
-    <div className="bg-primary text-white py-4" style={{ borderTop: '2px solid #0a0a0aff' }}>
-      <Container >
+    <div className="workify-footer text-white py-4" style={{ borderTop: '2px solid #2px solid #0a0a0aff' }}>
+      <Container  >
         <Row>
 
 
-          <Col md={4} className="border-end border-secondary pe-4 text-start text-white">
+          <Col md={4} className="border-end border-secondary pe-4 text-start text-white ">
             <h5 className="text-uppercase fw-bold">SERVICIO AL CLIENTE</h5>
             <p className="small mb-0 text-white">
               Para más información sobre nuestros productos no dude en contactarse con nosotros.

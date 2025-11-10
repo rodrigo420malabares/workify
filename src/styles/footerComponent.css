@@ -1,0 +1,30 @@
+.workify-footer {
+    /* El mismo color azul profundo que usamos en el header */
+    background-color: #003366 !important;
+    /* Aseguramos que el texto y los títulos sean visibles y claros */
+    color: white !important; 
+}
+
+/* Opcional: Mejorar la apariencia del logo y los iconos en el footer */
+.workify-footer h5 {
+    color: #a0c4ff; /* Usar el azul claro corporativo para los títulos */
+    margin-bottom: 1rem;
+}
+
+.workify-footer .border-secondary {
+    /* Si el borde es muy oscuro, podemos aclararlo un poco para que se note menos */
+    border-color: rgba(255, 255, 255, 0.2) !important; 
+}
+
+/* Efecto hover en los iconos de redes sociales */
+.workify-footer a:hover {
+    color: #a0c4ff !important; /* Mismo azul claro al pasar el ratón */
+    transition: color 0.3s;
+}
+
+/* Ajuste del logo para que contraste bien */
+.workify-footer img {
+    /* Opcional: puedes aplicar un filtro si el logo blanco no se ve bien sobre el fondo oscuro */
+    /* filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); */
+    opacity: 0.9;
+}
