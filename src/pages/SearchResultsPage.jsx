@@ -2,15 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { TODOS_LOS_PRODUCTOS  } from '../data/Productos';
 
 
-const allProducts = [
-    { id: 1, nombre: 'Escritorio Moderno', categoria: 'Escritorio', precio: 350.00 },
-    { id: 2, nombre: 'Silla Ergonómica Pro', categoria: 'Sillas', precio: 150.00 },
-    { id: 3, nombre: 'Computadora Gamer X', categoria: 'Computadora', precio: 1200.00 },
-    { id: 4, nombre: 'Fichero Metálico', categoria: 'Fichero', precio: 80.00 },
-  
-];
 
 export const SearchResultsPage = () => {
     const [searchParams] = useSearchParams();
@@ -25,7 +19,7 @@ export const SearchResultsPage = () => {
             const normalizedSearchTerm = searchTerm.toLowerCase().trim();
             
            
-            const filtered = allProducts.filter(product => 
+            const filtered = TODOS_LOS_PRODUCTOS.filter(product => 
                 product.nombre.toLowerCase().includes(normalizedSearchTerm) ||
                 product.categoria.toLowerCase().includes(normalizedSearchTerm)
             );

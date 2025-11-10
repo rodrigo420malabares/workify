@@ -31,7 +31,19 @@ const productosPorCodigo = [
       'https://res.cloudinary.com/dqzffyx3w/image/upload/v1759703883/pc4-removebg-preview_d4tfzk.png'
     ],
     fechaCreacion: '2025-11-04T08:15:00.000Z'
-  }
+  },
+  {
+    id: 'pc-003',
+    nombre: '',
+    descripcion: '',
+    precio: 1310199,
+    categoria: 'computadoras',
+    stock: 4,
+    talles: [],
+    imagenes: [''
+    ],
+    fechaCreacion: '2025-10-04T08:15:00.000Z'
+  },
 ];
 
 const ComputadorasPage = () => {
