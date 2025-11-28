@@ -48,7 +48,7 @@ const homePage = () => {
     className="d-flex align-items-center gap-4 text-decoration-none"
   >
     <img
-      src="https://res.cloudinary.com/dqzffyx3w/image/upload/q_auto,f_auto,w_300/v1761311841/Logo_tarjeta_NARANJA-removebg-preview_tygyld.png"
+      src="https://res.cloudinary.com/dqzffyx3w/image/upload/v1762777792/zftzfduq02rwuzeyang0.jpg"
       alt="Promoción Tarjeta Naranja"
       className="img-fluid"
       style={{ maxHeight: '120px' }}

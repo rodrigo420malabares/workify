@@ -1,64 +1,97 @@
 
-.workify-header {
-    background-color: #003366 ; /* Azul Marino Oscuro */
-    padding: 10px 0; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+
+.navbar {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.75rem 1.5rem;
+ 
 }
 
 
-.workify-logo {
-    width: 130px; 
-    height: auto;
-    margin-right: 20px;
+.navbar-brand img {
+  max-height: 150px;
+}
+
+
+.nav-link {
+  color: white !important;
+  transition: color 0.3s ease;
+  font-size: 1.3rem;
+}
+
+.nav-link:hover {
+  color: black !important;
+}
+
+
+.dropdown-item {
+  background-color: transparent;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  color: black !important;
+  background-color: #f8f9fa;
 }
 
 
 
-.workify-nav-links .nav-link,
-.workify-nav-links .dropdown-toggle {
-    color: white !important;
-    font-size: 1rem; 
-    font-weight: 500; 
-    text-decoration: none;
-    padding: 10px 15px; 
-    transition: color 0.3s, border-bottom 0.3s;
-}
 
-.workify-nav-links .nav-link:hover,
-.workify-nav-links .dropdown-toggle:hover {
-    color: #a0c4ff !important; 
-    border-bottom: 2px solid #a0c4ff; 
+.badge {
+  font-size: 0.75rem;
+  padding: 0.3em 0.6em;
 }
 
 
-.d-flex .form-control {
-    border-radius: 4px 0 0 4px; 
-    border: none !important;
+.carrito-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
-.d-flex .btn-outline-light {
-    border-radius: 0 4px 4px 0 !important;
-    border: 1px solid white !important;
-    background-color: white !important;
-    color: #003366 !important; 
-}
-
-
-.workify-btn-login {
-    border-width: 2px !important; 
-    font-weight: 600 !important;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.workify-btn-login:hover {
-    background-color: white !important;
-    color: #003366 !important; 
-}
-
-.bi-cart-fill {
-    font-size: 1.5rem !important; 
+.carrito-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 
-#carrito-dropdown::after {
-    color: white;
+.carrito-total {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #212529;
 }
+
+.btn-outline-light {
+  font-weight: 500;
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+}
+.btn-outline-light:hover {
+  background-color: white;
+  color:black;
+}
+
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+.search-bar input {
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  border: none;
+  width: 180px;
+}
+.search-bar button {
+  border-radius: 20px;
+  padding: 0.4rem 1rem;
+  background-color:black;
+  border: none;
+  font-weight: bold;
+}
+.search-bar button:hover {
+  background-color: black;
+}
+
