@@ -35,6 +35,8 @@ import Admin from './pages/Admin';
 import ProtectedRoutesAdmin from './routes/ProtectedRoutesAdmin';
 import ClientPage from './pages/ClientePage';
 import { SearchResultsPage } from './pages/SearchResultsPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 
 
@@ -72,6 +74,8 @@ function App() {
             <Route path='/sillas' element={<SillasPage />} />
             <Route path="/detalle/:id" element={<DetalleProducto />} />
             <Route path='/cliente' element={<ClientPage />} />
+            <Route path='/forgot-password' element={<ForgotPasswordPage/>}/>
+            <Route path='/reset-password' element={<ResetPasswordPage/>}/>
             <Route
               path="/admin"
               element={

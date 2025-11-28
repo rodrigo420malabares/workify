@@ -4,7 +4,7 @@ import '../styles/FormularioContacto.css';
 import logoworkify from '../assets/img/logoworkify.png';
 
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT;
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 export default function FormularioContacto() {
@@ -15,17 +15,18 @@ export default function FormularioContacto() {
   const handleSubmit = e => {
   e.preventDefault();
 
-  emailjs
-    .sendForm(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      formRef.current,
-      EMAILJS_PUBLIC_KEY
-    )
+  emailjs.sendForm(
+  import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  import.meta.env.VITE_EMAILJS_TEMPLATE_ID_CONTACT,
+  formRef.current,
+  import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+)
+
+
     .then(() => {
       setEnviado(true);
       setError(false);
-      formRef.current.reset(); // ✅ limpia el formulario
+      formRef.current.reset();
     })
     .catch((error) => {
       console.error('Error al enviar:', error);
@@ -39,7 +40,7 @@ export default function FormularioContacto() {
 return (
   <div className="container my-5">
     <div className="row justify-content-center align-items-center g-4">
-      {/* Logo */}
+      
       <div className="col-12 text-center">
         <img
           src={logoworkify}
@@ -49,7 +50,7 @@ return (
         />
       </div>
 
-      {/* Formulario */}
+    
       <div className="col-12">
         <div className="card shadow-sm p-4 mx-auto w-100" style={{ maxWidth: '500px' }}>
           <h2 className="text-center mb-4">Contáctanos</h2>

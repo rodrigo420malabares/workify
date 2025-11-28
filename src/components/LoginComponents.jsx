@@ -105,7 +105,9 @@ const LoginComponent = () => {
               />
             </div>
             <div className="mb-3 text-end">
-              <Link to="/404" className="text-decoration-none">Olvidé mi contraseña</Link>
+            <Link to="/forgot-password" className="text-decoration-none">Olvidé mi contraseña</Link>
+
+
             </div>
             <div className="d-grid mb-3">
               <button type="submit" className="btn btn-primary">Iniciar sesión</button>
