@@ -9,64 +9,86 @@ const LoginComponent = () => {
   const navigate = useNavigate();
   const { logIn } = useContext(AuthContext);
 
- 
-  const registrarEnAdmin = (usuario) => {
-    const usuariosAdmin = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
-    const existe = usuariosAdmin.some(u => u.id === usuario.id);
-    if (!existe) {
-      localStorage.setItem('usuarios-admin', JSON.stringify([...usuariosAdmin, usuario]));
+
+  // const registrarEnAdmin = (usuario) => {
+  //   const usuariosAdmin = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
+  //   const existe = usuariosAdmin.some(u => u.id === usuario.id);
+  //   if (!existe) {
+  //     localStorage.setItem('usuarios-admin', JSON.stringify([...usuariosAdmin, usuario]));
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const credenciales = {
+      correo: correo,
+      contraseña: contraseña,
+    };
+
+    try {
+      // Llama a la función logIn (ahora asíncrona y conectada al backend)
+      const user = await logIn(credenciales);
+
+      // 🚨 Redirección basada en el rol que devuelve el backend
+      // Usa el nombre EXACTO del rol de administrador de tu DB (vimos que era 'Admin' con mayúscula)
+      if (user.rol === 'admin') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/home', { replace: true });
+      }
+
+    } catch (error) {
+      // Manejo de errores de login (viene de la excepción lanzada en AuthContext)
+      alert(error.message || 'Error de inicio de sesión. Verifica tu conexión.');
     }
+    // const usuarios = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
+
+    // const user = usuarios.find(
+    //   u => u.email === correo && u.contraseña === contraseña
+    // );
+
+    // if (user) {
+    //   if (user.bloqueado) {
+    //     alert('Tu cuenta ha sido bloqueada por el administrador.');
+    //     return;
+    //   }
+
+    //   logIn(user);
+    //   if (user.rol === 'admin') {
+    //     navigate('/admin');
+    //   } else {
+    //     navigate('/home');
+    //   }
+    //   return;
+    // }
+    // if (correo === 'admin@workify.com' && contraseña === '1234') {
+    //   const usuario = {
+    //     id: 'admin',
+    //     nombre: 'Administrador',
+    //     email: correo,
+    //     rol: 'admin',
+    //     bloqueado: false,
+    //   };
+    //   logIn(usuario);
+    //   navigate('/admin');
+    //   return;
+    // }
+
+    // if (correo === 'cliente@workify.com' && contraseña === '1234') {
+    //   const usuario = {
+    //     id: 'cliente01',
+    //     nombre: 'Cliente Demo',
+    //     email: correo,
+    //     rol: 'cliente',
+    //     bloqueado: false,
+    //   };
+    //   logIn(usuario);
+    //   navigate('/home');
+    //   return;
+    // }
+    // alert('Correo o contraseña incorrectos');
   };
-
-  const handleSubmit = (e) => {
-  e.preventDefault();
-  const usuarios = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
-
-  const user = usuarios.find(
-    u => u.email === correo && u.contraseña === contraseña
-  );
-
-  if (user) {
-    if (user.bloqueado) {
-      alert('Tu cuenta ha sido bloqueada por el administrador.');
-      return;
-    }
-
-    logIn(user);
-    if (user.rol === 'admin') {
-      navigate('/admin');
-    } else {
-      navigate('/home');
-    }
-    return;
-  }
-  if (correo === 'admin@workify.com' && contraseña === '1234') {
-    const usuario = {
-      id: 'admin',
-      nombre: 'Administrador',
-      email: correo,
-      rol: 'admin',
-      bloqueado: false,
-    };
-    logIn(usuario);
-    navigate('/admin');
-    return;
-  }
-
-  if (correo === 'cliente@workify.com' && contraseña === '1234') {
-    const usuario = {
-      id: 'cliente01',
-      nombre: 'Cliente Demo',
-      email: correo,
-      rol: 'cliente',
-      bloqueado: false,
-    };
-    logIn(usuario);
-    navigate('/home');
-    return;
-  }
-  alert('Correo o contraseña incorrectos');
-};
 
 
 
@@ -105,7 +127,7 @@ const LoginComponent = () => {
               />
             </div>
             <div className="mb-3 text-end">
-            <Link to="/forgot-password" className="text-decoration-none">Olvidé mi contraseña</Link>
+              <Link to="/forgot-password" className="text-decoration-none">Olvidé mi contraseña</Link>
 
 
             </div>
