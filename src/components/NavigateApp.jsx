@@ -37,7 +37,7 @@ export const NavigateApp = ({ logOut }) => {
 
 
   return (
-    <Navbar expand="lg" bg="primary" variant="dark">
+    <Navbar expand="lg" bg="primary" variant="dark" sticky="top">
       <Container>
         <Navbar.Brand as={NavLink} to="/home" className="d-flex align-items-center">
           <img src={logoworkify} alt="Logo de workify" style={{ width: '150px', height: 'auto' }} />

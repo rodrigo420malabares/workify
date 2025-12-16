@@ -3,9 +3,9 @@ import logoworkify from '../assets/img/logoworkify.png';
 
 const NosotrosPage = () => {
   const equipo = [
-    { nombre: 'Tu Nombre', rol: 'Desarrollador React Líder', avatar: 'https://via.placeholder.com/150?text=Yo' },
-    { nombre: 'Compañero 1', rol: 'Diseñador UI/UX', avatar: 'https://via.placeholder.com/150?text=C1' },
-    { nombre: 'Compañero 2', rol: 'Analista de Negocios', avatar: 'https://via.placeholder.com/150?text=C2' },
+    // { nombre: 'Tu Nombre', rol: 'Desarrollador React Líder', avatar: 'https://via.placeholder.com/150?text=Yo' },
+    // { nombre: 'Compañero 1', rol: 'Diseñador UI/UX', avatar: 'https://via.placeholder.com/150?text=C1' },
+    // { nombre: 'Compañero 2', rol: 'Analista de Negocios', avatar: 'https://via.placeholder.com/150?text=C2' },
   ];
 
   return (
