@@ -38,6 +38,8 @@ import { SearchResultsPage } from './pages/SearchResultsPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 
+import CategoriaPage from './pages/categoriaPage';
+
 
 
 
@@ -49,11 +51,11 @@ function App() {
   if (!auth) return <div>Error: el contexto de autenticación no está disponible.</div>;
 
   const { usuario, logIn, logOut, loading } = auth;
-console.log("Usuario actual:", usuario);
-console.log("Rol del usuario:", usuario?.rol);
+  console.log("Usuario actual:", usuario);
+  console.log("Rol del usuario:", usuario?.rol);
 
-if (loading) {
-  return null
+  if (loading) {
+    return null
     // return (
     //   <div className="d-flex justify-content-center align-items-center vh-100">
     //     <div className="spinner-border text-primary" role="status">
@@ -88,8 +90,14 @@ if (loading) {
             <Route path='/sillas' element={<SillasPage />} />
             <Route path="/detalle/:id" element={<DetalleProducto />} />
             <Route path='/cliente' element={<ClientPage />} />
-            <Route path='/forgot-password' element={<ForgotPasswordPage/>}/>
-            <Route path='/reset-password' element={<ResetPasswordPage/>}/>
+            <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+            <Route path='/reset-password' element={<ResetPasswordPage />} />
+
+            <Route path="/categoria/:categoriaNombre" element={<CategoriaPage />} />
+            <Route path="/detalle/:id" element={<DetalleProducto />} />
+
+
+
             <Route
               path="/admin"
               element={
