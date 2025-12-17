@@ -35,7 +35,7 @@ const AdminCategorias = () => {
     }
 
     try {
-      await crearCategoria({ nombre: nuevaCategoria });
+      await crearCategoria(nuevaCategoria);
       setNuevaCategoria(""); // Limpiar el input
       setMensaje("¡Categoría creada con éxito!");
       cargarCategorias(); // Recargar la lista para ver la nueva
