@@ -13,6 +13,8 @@ const ResetPasswordPage = () => {
   const params = new URLSearchParams(window.location.search);
   const token = params.get("token");
 
+const url = "https://ecommercew14backend.vercel.app/api/auth/reset-password"
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -22,7 +24,7 @@ const ResetPasswordPage = () => {
     }
 
     if (password.length < 8) {
-      setError("La contraseña debe tener al menos 8 caracteres");
+      setError("La contraseña debe tener al menos 6 caracteres");
       return;
     }
 
@@ -31,10 +33,10 @@ const ResetPasswordPage = () => {
     setMensaje(null);
 
     try {
-      const res = await fetch("http://localhost:3000/api/auth/reset-password", {
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, nuevaPassword: password }),
+        body: JSON.stringify({ token, newPassword: password }),
       });
 
       const data = await res.json();

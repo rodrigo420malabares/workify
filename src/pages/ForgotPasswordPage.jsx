@@ -8,6 +8,8 @@ const ForgotPasswordPage = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const url = "https://ecommercew14backend.vercel.app/api/auth/forgot-password"
+
   // Variables desde tu .env
   const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
   const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID_RESET;
@@ -22,7 +24,7 @@ const ForgotPasswordPage = () => {
 
     try {
       // 1. Llamada al backend para generar token
-      const res = await fetch("http://localhost:3000/api/auth/forgot-password", {
+      const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ correo: email }),
@@ -36,7 +38,7 @@ const ForgotPasswordPage = () => {
       }
 
       // 2. Armar el enlace de recuperación
-      const resetLink = `http://localhost:3000/reset-password?token=${data.token}`;
+      const resetLink = `https://ecommercew14backend.vercel.app/api/auth/forgot-password?token=${data.token}`;
 
       // 3. Enviar correo con EmailJS
       await emailjs.send(
