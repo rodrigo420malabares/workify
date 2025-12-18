@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { crearUsuario } from '../helpers/fetchApi';
 
 const RegisterComponent = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nombre: '',
+    apellido: '',
     usuario: '',
-    email: '',
+    correo: '',
     celular: '',
     codigo: '',
     direccion: '',
-    contraseña: '',
+    password: '',
   });
 
   const handleChange = (e) => {
@@ -20,30 +22,60 @@ const RegisterComponent = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-   
+
     const nuevoUsuario = {
-      id: Date.now().toString(),
+      //id: Date.now().toString(),
       nombre: formData.nombre,
-      usuario: formData.usuario,
-      email: formData.email,
-      celular: formData.celular,
-      codigo: formData.codigo,
-      direccion: formData.direccion,
-      contraseña: formData.contraseña,
-      rol: 'cliente',      
-      bloqueado: false,
+      //usuario: formData.usuario,
+      apellido: formData.apellido,
+      correo: formData.correo,
+      //celular: formData.celular,
+      //codigo: formData.codigo,
+      //direccion: formData.direccion,
+      password: formData.password,
+      rol: 'Usuario',      
+      //bloqueado: false,
     };
 
-    const usuarios = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
-    usuarios.push(nuevoUsuario);
-    localStorage.setItem('usuarios-admin', JSON.stringify(usuarios));
+    // const usuarios = JSON.parse(localStorage.getItem('usuarios-admin')) || [];
+    // usuarios.push(nuevoUsuario);
+    // localStorage.setItem('usuarios-admin', JSON.stringify(usuarios));
 
-    alert('Usuario registrado con éxito ✅');
-    navigate('/Ingresa o Registrate'); 
+    // alert('Usuario registrado con éxito ✅');
+    // navigate('/Ingresa o Registrate');
+
+    try {
+      const resp = await crearUsuario(nuevoUsuario); // 4. Usamos el helper
+
+      if (resp.usuario) {
+        // Registro exitoso (el backend devuelve el objeto 'usuario' si está ok)
+        alert(`¡Bienvenido, ${resp.usuario.nombre}! Ya puedes iniciar sesión.`);
+        navigate('/Ingresa o Registrate');
+      } else if (resp.errors) {
+        // Errores de validación del backend (ej: correo ya existe, password corto)
+        const errorMsg = resp.errors.map(err => err.msg).join('\n');
+        alert(`Errores de validación:\n${errorMsg}`);
+      } else if (resp.msg) {
+        // Error general del backend (ej: "correo ya existe")
+        alert(`Error al registrar: ${resp.msg}`);
+      } else {
+        alert('Ocurrió un error desconocido durante el registro.');
+      }
+
+    } catch (error) {
+      console.error('Error de conexión:', error);
+      alert('Error de conexión con el servidor.');
+    }
+
   };
+
+
+  //Uso del helper fetchApi
+
+
 
   return (
     <div
@@ -58,14 +90,28 @@ const RegisterComponent = () => {
             <input type="text" className="form-control rounded-pill" id="nombre" name="nombre" value={formData.nombre} onChange={handleChange} required />
           </div>
 
+          {/* Debes añadir este bloque: */}
+          <div className="mb-3">
+            <label htmlFor="apellido" className="form-label">Apellido</label>
+            <input
+              type="text"
+              className="form-control rounded-pill"
+              id="apellido"
+              name="apellido"
+              value={formData.apellido} // Usa el estado
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           <div className="mb-3">
             <label htmlFor="usuario" className="form-label">Usuario</label>
             <input type="text" className="form-control rounded-pill" id="usuario" name="usuario" value={formData.usuario} onChange={handleChange} required />
           </div>
 
           <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input type="email" className="form-control rounded-pill" id="email" name="email" value={formData.email} onChange={handleChange} required />
+            <label htmlFor="correo" className="form-label">Email</label>
+            <input type="email" className="form-control rounded-pill" id="correo" name="correo" value={formData.email} onChange={handleChange} required />
           </div>
 
           <div className="mb-3">
@@ -84,8 +130,8 @@ const RegisterComponent = () => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="contraseña" className="form-label">Contraseña</label>
-            <input type="password" className="form-control rounded-pill" id="contraseña" name="contraseña" value={formData.contraseña} onChange={handleChange} required />
+            <label htmlFor="password" className="form-label">Contraseña</label>
+            <input type="password" className="form-control rounded-pill" id="password" name="password" value={formData.password} onChange={handleChange} required />
           </div>
 
           <div className="d-grid">

@@ -1,27 +1,35 @@
 import { useState, useEffect } from 'react';
 import { Table, Button, Badge } from 'react-bootstrap';
+import { getUsuarios, borrarUsuario } from '../../helpers/userApi';
 
 const AdminUsuarios = () => {
-  const [usuarios, setUsuarios] = useState(() => {
-    const guardados = localStorage.getItem('usuarios-admin');
-    return guardados ? JSON.parse(guardados) : [];
-  });
+  const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem('usuarios-admin', JSON.stringify(usuarios));
-  }, [usuarios]);
+    cargarUsuarios();
+  }, []);
 
-  const bloquearUsuario = (id) => {
-    setUsuarios(prev =>
-      prev.map(u =>
-        u.id === id ? { ...u, bloqueado: !u.bloqueado } : u
-      )
-    );
+  const cargarUsuarios = async () => {
+    try {
+      const resp = await getUsuarios();
+      setUsuarios(resp.usuarios || []); 
+    } catch (error) {
+      console.error(error);
+      alert("Error al cargar usuarios");
+    }
   };
 
-  const eliminarUsuario = (id) => {
-    if (window.confirm('¿Eliminar este usuario?')) {
-      setUsuarios(prev => prev.filter(u => u.id !== id));
+  const handleBorrar = async (id) => {
+    // Usamos la alerta nativa del navegador
+    if (!window.confirm("¿Seguro que quieres eliminar/desactivar este usuario?")) {
+      return;
+    }
+
+    try {
+      await borrarUsuario(id);
+      cargarUsuarios();
+    } catch (error) {
+      alert("No se pudo borrar");
     }
   };
 
@@ -31,50 +39,46 @@ const AdminUsuarios = () => {
 
       <div className="table-responsive">
         <Table striped bordered hover>
-          <thead>
+          <thead className="table-dark">
             <tr>
               <th>Nombre</th>
-              <th>Email</th>
+              <th>Correo</th>
               <th>Rol</th>
               <th>Estado</th>
-              <th>Acciones</th>
+              <th className="text-end">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {usuarios.length === 0 ? (
               <tr>
                 <td colSpan="5" className="text-center">
-                  No hay usuarios registrados
+                  Cargando usuarios o no hay registros...
                 </td>
               </tr>
             ) : (
               usuarios.map((u) => (
-                <tr key={u.id}>
-                  <td>{u.nombre}</td>
-                  <td>{u.email}</td>
-                  <td>{u.rol || 'usuario'}</td>
+                <tr key={u.uid || u._id}> 
+                  <td>{u.nombre} {u.apellido}</td>
+                  <td>{u.correo}</td>
                   <td>
-                    {u.bloqueado ? (
-                      <Badge bg="danger">Bloqueado</Badge>
-                    ) : (
-                      <Badge bg="success">Activo</Badge>
-                    )}
+                    <Badge bg={u.rol === 'ADMIN_ROLE' || u.rol === 'Admin' ? 'warning' : 'info'}>
+                      {u.rol}
+                    </Badge>
                   </td>
                   <td>
-                    <Button
-                      variant={u.bloqueado ? 'success' : 'warning'}
-                      size="sm"
-                      className="me-2"
-                      onClick={() => bloquearUsuario(u.id)}
-                    >
-                      {u.bloqueado ? 'Desbloquear' : 'Bloquear'}
-                    </Button>
+                    {u.estado ? (
+                      <Badge bg="success">Activo</Badge>
+                    ) : (
+                      <Badge bg="danger">Inactivo</Badge>
+                    )}
+                  </td>
+                  <td className="text-end">
                     <Button
                       variant="danger"
                       size="sm"
-                      onClick={() => eliminarUsuario(u.id)}
+                      onClick={() => handleBorrar(u.uid || u._id)}
                     >
-                      Eliminar
+                      <i className="bi bi-trash"></i> Eliminar
                     </Button>
                   </td>
                 </tr>
@@ -88,4 +92,3 @@ const AdminUsuarios = () => {
 };
 
 export default AdminUsuarios;
-

@@ -28,6 +28,7 @@ export function CarritoProvider({ children }) {
   }, [carrito, usuario]);
 
   const agregarProducto = (producto, talle, cantidad = 1) => {
+    // 1. Detectamos la imagen
     const imagen =
       typeof producto.imagenes?.[0] === 'string'
         ? producto.imagenes[0]
@@ -36,7 +37,14 @@ export function CarritoProvider({ children }) {
           producto.url ||
           '/assets/img/default.png';
 
-    const idUnico = `${producto.id}-${talle}`;
+    // 2. CORRECCIÓN CLAVE: Usamos _id (de Mongo) O id (si existiera)
+    // Esto evita que salga "undefined"
+    const itemID = producto._id || producto.id; 
+
+    // Creamos el ID único para el carrito
+    const idUnico = `${itemID}-${talle}`;
+    
+    // Buscamos si ya existe ese producto específico
     const existe = carrito.find(item => item.id === idUnico);
 
     const actualizado = existe
@@ -45,9 +53,9 @@ export function CarritoProvider({ children }) {
             ? { ...item, cantidad: item.cantidad + cantidad }
             : item
         )
-      : [...carrito, { ...producto, talle, imagen, id: idUnico, cantidad }];
+      : [...carrito, { ...producto, talle, imagen, id: idUnico, cantidad, _id: itemID }];
 
-    setCarrito(actualizado);
+    setCarrito(actualizado);  
   };
 
   const eliminarProducto = (id) => {

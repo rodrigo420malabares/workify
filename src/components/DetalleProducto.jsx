@@ -14,17 +14,53 @@ const DetalleProducto = () => {
   const [mostrarToast, setMostrarToast] = useState(false);
   const [expandirDescripcion, setExpandirDescripcion] = useState(false);
   const { agregarProducto } = useContext(CarritoContext);
+  
+  // 1. Estado de carga inicializado en true
+  const [cargando, setCargando] = useState(true); 
 
   useEffect(() => {
-  const guardados = JSON.parse(localStorage.getItem('productos')) || [];
-  const encontrado = guardados.find(p => p.id === id || p.id === parseInt(id));
-  setProducto(encontrado);
-}, [id]);
+    const obtenerProducto = async () => {
+      try {
+        setCargando(true);
+        // 2. URL CORREGIDA (sin comillas raras en el medio)
+        const respuesta = await fetch(`https://ecommercew14backend.vercel.app/api/productos/${id}`);
+        
+        if (!respuesta.ok) {
+            throw new Error('Error en la petición');
+        }
 
+        const data = await respuesta.json();
 
+        if (data.producto) {
+          const productoAdaptado = {
+            ...data.producto,
+            imagenes: [data.producto.img] 
+          };
+          setProducto(productoAdaptado);
+        } else {
+            console.log("No se encontró el producto");
+        }
+      } catch (error) {
+        console.error("Error conectando con el backend:", error);
+      } finally {
+        // Esto se ejecuta siempre, haya error o éxito, para sacar el cartel de cargando
+        setCargando(false);
+      }
+    };
 
-  if (!producto) return <h2 className="text-center py-5">Producto no encontrado</h2>;
+    obtenerProducto();
+  }, [id]);
 
+  // 3. ESTAS LÍNEAS VAN AFUERA DEL USEEFFECT (Aquí es donde React decide qué mostrar)
+  if (cargando) {
+    return <h2 className="text-center py-5">Cargando producto...</h2>;
+  }
+
+  if (!producto) {
+    return <h2 className="text-center py-5">Producto no encontrado 😢</h2>;
+  }
+
+  // --- Lógica del renderizado normal ---
   const handleAgregar = () => {
     if (producto.talles?.length && !talleSeleccionado) {
       alert('Seleccioná un talle');
@@ -40,7 +76,7 @@ const DetalleProducto = () => {
     setTimeout(() => setMostrarToast(false), 3000);
   };
 
-  const oraciones = producto.descripcion?.split('.').filter(o => o.trim() !== '');
+  const oraciones = producto.descripcion?.split('.').filter(o => o.trim() !== '') || [];
   const descripcionCorta = oraciones.slice(0, 2);
   const descripcionCompleta = oraciones.slice(2);
 
@@ -60,7 +96,7 @@ const DetalleProducto = () => {
         <Col xs={12} md={5}>
           <h2>{producto.nombre}</h2>
           <p className="text-muted">Código: {producto.id}</p>
-          <p className="text-muted">Categoría: {producto.categoria}</p>
+          <p className="text-muted">Categoría: {producto.categoria?.nombre || producto.categoria}</p>
 
           <h5>Descripción</h5>
           {descripcionCorta.map((o, i) => <p key={i}>{o.trim()}.</p>)}
@@ -138,5 +174,4 @@ const DetalleProducto = () => {
   );
 };
 
-export default DetalleProducto;
-
+export default DetalleProducto; 
