@@ -12,7 +12,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 
-
+// Arreglando deploy
 
 
 import FooterComponent from './components/footerComponent';
