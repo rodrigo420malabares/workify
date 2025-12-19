@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthModal = ({ show, handleClose }) => {
     const { login } = useContext(AuthContext);
-    
+
     const navigate = useNavigate();
 
     // true = Login, false = Registro
@@ -13,6 +13,7 @@ const AuthModal = ({ show, handleClose }) => {
 
     const [formData, setFormData] = useState({
         nombre: '',
+        apellido: '',
         correo: '',
         password: '',
         confirmPassword: ''
@@ -28,7 +29,7 @@ const AuthModal = ({ show, handleClose }) => {
     const toggleMode = () => {
         setIsLogin(!isLogin);
         setError(null);
-        setFormData({ nombre: '', correo: '', password: '', confirmPassword: '' });
+        setFormData({ nombre: '', apellido: '', correo: '', password: '', confirmPassword: '' });
     };
 
     const handleSubmit = async (e) => {
@@ -39,7 +40,8 @@ const AuthModal = ({ show, handleClose }) => {
         try {
             if (isLogin) {
                 // --- LOGIN ---
-                const resultado = await login({ correo: formData.correo, password: formData.password
+                const resultado = await login({
+                    correo: formData.correo, password: formData.password
                 });
 
                 if (resultado.ok) {
@@ -60,9 +62,10 @@ const AuthModal = ({ show, handleClose }) => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         nombre: formData.nombre,
+                        apellido: formData.apellido,
                         correo: formData.correo,
                         password: formData.password,
-                        rol: 'cliente'
+                        rol: 'Usuario'
                     })
                 });
 
@@ -98,14 +101,25 @@ const AuthModal = ({ show, handleClose }) => {
                 <Form onSubmit={handleSubmit}>
 
                     {!isLogin && (
-                        <Form.Group className="mb-3">
-                            <Form.Label>Nombre</Form.Label>
-                            <Form.Control
-                                type="text" placeholder="Tu nombre" name="nombre"
-                                value={formData.nombre} onChange={handleChange} required={!isLogin}
-                            />
-                        </Form.Group>
+                        <>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Nombre</Form.Label>
+                                <Form.Control
+                                    type="text" placeholder="Tu nombre" name="nombre"
+                                    value={formData.nombre} onChange={handleChange} required={!isLogin}
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3">
+                                <Form.Label>Apellido</Form.Label>
+                                <Form.Control
+                                    type="text" placeholder="Tu apellido" name="apellido"
+                                    value={formData.apellido} onChange={handleChange} required={!isLogin}
+                                />
+                            </Form.Group>
+                        </>
                     )}
+
 
                     <Form.Group className="mb-3">
                         <Form.Label>Email</Form.Label>

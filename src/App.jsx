@@ -26,9 +26,9 @@ import ContactoPage from './pages/contactoPage';
 import Error404Page from './pages/error404Page';
 import EscritorioPage from './pages/escritorioPage';
 import FicheroPage from './pages/ficheroPage';
-import LoginPage from './pages/loginPage';
+//import LoginPage from './pages/loginPage';
 import NosotrosPage from './pages/nosotrosPage';
-import RegistroPage from './pages/registroPage';
+//import RegistroPage from './pages/registroPage';
 import SillasPage from './pages/sillasPage';
 import DetalleProducto from './components/DetalleProducto';
 import Admin from './pages/Admin';
@@ -74,7 +74,7 @@ function App() {
         <NavigateApp logIn={logIn} logOut={logOut} auth={!!usuario} />
         <main>
           <Routes>
-            <Route path="/Ingresa o Registrate" element={<LoginPage />} />
+          
             <Route path='/' element={<HomePage />} />
             <Route path='/home' element={<HomePage />} />
             <Route path='/carrito' element={<CarritoPage />} />
@@ -86,7 +86,7 @@ function App() {
             <Route path='/escritorio' element={<EscritorioPage />} />
             <Route path='/fichero' element={<FicheroPage />} />
             <Route path='/nosotros' element={<NosotrosPage />} />
-            <Route path='/registro' element={<RegistroPage />} />
+         
             <Route path='/sillas' element={<SillasPage />} />
             <Route path="/detalle/:id" element={<DetalleProducto />} />
             <Route path='/cliente' element={<ClientPage />} />
