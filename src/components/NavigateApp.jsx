@@ -13,6 +13,8 @@ import { getCategorias } from '../helpers/categoryApi';
 
 import AuthModal from './authModal';
 
+import ThemeSwitch from './ThemeSwitch';
+
 export const NavigateApp = ({ logOut }) => {
   const { carrito } = useContext(CarritoContext);
   const { usuario } = useContext(AuthContext);
@@ -92,6 +94,7 @@ export const NavigateApp = ({ logOut }) => {
             <Nav.Link as={NavLink} to="/Nosotros">Nosotros</Nav.Link>
             <Nav.Link as={NavLink} to="/Contacto">Contacto</Nav.Link>
             <SearchInput />
+            <ThemeSwitch />
           </Nav>
 
           <div className="d-flex align-items-center gap-2">
