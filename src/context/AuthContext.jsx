@@ -37,13 +37,13 @@ export function AuthProvider({ children }) {
         }
     }, []);
 
-  const logIn = async (credencialesForm) => {
+  const login = async (credencialesForm) => {
     // setUsuario(user);
     // localStorage.setItem('usuario', JSON.stringify(user));
     // Mapeamos los campos del formulario a lo que espera el Backend: { correo, password }
     const datosParaApi = {
       correo: credencialesForm.correo,
-      password: credencialesForm.contraseña, // El backend espera 'password'
+      password: credencialesForm.password, // El backend espera 'password'
     };
 
     
@@ -63,7 +63,9 @@ export function AuthProvider({ children }) {
       // 3. 👤 Establecer el usuario en el estado global
       setUsuario(data.usuario);
 
-      return data.usuario; // Retornamos el objeto usuario para las redirecciones
+      return { ok: true };
+      //data.usuario; // Retornamos el objeto usuario para las redirecciones importante: 
+      // esta linea fue correcida por el { ok: true };
 
     } catch (error) {
       // Si hay un error (ej: credenciales inválidas), lo relanzamos
@@ -83,7 +85,7 @@ export function AuthProvider({ children }) {
   
 
   return (
-    <AuthContext.Provider value={{ usuario, logIn, logOut, loading, }}>
+    <AuthContext.Provider value={{ usuario, login, logOut, loading, }}>
       {children}
     </AuthContext.Provider>
   );

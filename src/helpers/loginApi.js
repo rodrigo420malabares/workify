@@ -16,6 +16,8 @@ export const loginUsuario = async (datos) => { // credenciales = { correo, passw
       const data = await resp.json();
 
       if (!resp.ok) {
+
+        
         // Tu backend devuelve un 400 con un mensaje de error si las credenciales fallan
         throw new Error(data.msg || "Credenciales inválidas o cuenta inactiva"); 
       }

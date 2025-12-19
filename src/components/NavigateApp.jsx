@@ -8,6 +8,11 @@ import logoworkify from '../assets/img/logoworkify.png';
 import SearchInput from './SearchInput';
 import { getCategorias } from '../helpers/categoryApi';
 
+
+
+
+import AuthModal from './authModal';
+
 export const NavigateApp = ({ logOut }) => {
   const { carrito } = useContext(CarritoContext);
   const { usuario } = useContext(AuthContext);
@@ -15,6 +20,8 @@ export const NavigateApp = ({ logOut }) => {
   
   // Estado inicial vacío
   const [categorias, setCategorias] = useState([]);
+
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
   const auth = !!usuario;
 
@@ -54,6 +61,7 @@ export const NavigateApp = ({ logOut }) => {
   };
 
   return (
+    <>
     <Navbar expand="lg" bg="primary" variant="dark" sticky="top">
       <Container>
         <Navbar.Brand as={NavLink} to="/home" className="d-flex align-items-center">
@@ -101,7 +109,7 @@ export const NavigateApp = ({ logOut }) => {
                 Cerrar sesión
               </Button>
             ) : (
-              <Button as={NavLink} to="/Ingresa o Registrate" variant="outline-light">
+              <Button  variant="outline-light" onClick={() => setShowAuthModal(true)}>
                 Inicio de sesión
               </Button>
             )}
@@ -156,6 +164,9 @@ export const NavigateApp = ({ logOut }) => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    <AuthModal show={showAuthModal} handleClose={() => setShowAuthModal(false)} />
+    
+    </>
   );
 };
 
