@@ -56,5 +56,16 @@ footer {
   }
 }
 
-
+/* Ajustes para el Header en Celular */
+@media (max-width: 768px) {
+  .navbar-brand img {
+    height: 40px !important; /* Achicamos el logo (antes seguro era más grande) */
+    width: auto;
+  }
+  
+  .navbar {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
 

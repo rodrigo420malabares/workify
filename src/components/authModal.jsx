@@ -160,7 +160,8 @@ const AuthModal = ({ show, handleClose }) => {
                     {isLogin ? (
                         <>
                             <p className="mb-1">¿No tenés cuenta? <Button variant="link" className="p-0" onClick={toggleMode}>Registrate</Button></p>
-                            <Button variant="link" className="text-muted p-0 small" onClick={() => { handleClose(); navigate('/reset-password-request') }}>Olvidé mi contraseña</Button>
+                            <Button variant="link" className="text-muted p-0 small" onClick={() => 
+                                { handleClose(); navigate('/forgot-password') }}>Olvidé mi contraseña</Button>
                         </>
                     ) : (
                         <p className="mb-0">¿Ya tenés cuenta? <Button variant="link" className="p-0" onClick={toggleMode}>Ingresá</Button></p>

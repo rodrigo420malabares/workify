@@ -43,21 +43,37 @@ export function CarritoProvider({ children }) {
 
     // Creamos el ID único para el carrito
     const idUnico = `${itemID}-${talle}`;
+
+    // 3. Stock seguro (si no viene, asumimos infinito o 0 según prefieras)
+    const stockDisponible = producto.stock !== undefined ? producto.stock : 999;
     
     // Buscamos si ya existe ese producto específico
     const existe = carrito.find(item => item.id === idUnico);
 
-    const actualizado = existe
-      ? carrito.map(item =>
-          item.id === idUnico
-            ? { ...item, cantidad: item.cantidad + cantidad }
-            : item
-        )
-      : [...carrito, { ...producto, talle, imagen, id: idUnico, cantidad, _id: itemID }];
+if (existe) {
+      // 🛑 FRENO DE MANO: Si quiere sumar más de lo que hay
+      if (existe.cantidad + cantidad > stockDisponible) {
+        alert(`¡Ups! Solo quedan ${stockDisponible} unidades de este producto.`);
+        return; // Cortamos la ejecución acá. No se agrega nada.
+      }
 
-    setCarrito(actualizado);  
+      const actualizado = carrito.map(item =>
+        item.id === idUnico
+          ? { ...item, cantidad: item.cantidad + cantidad }
+          : item
+      );
+      setCarrito(actualizado);
+
+    } else {
+      // Caso nuevo producto
+      if (cantidad > stockDisponible) {
+        alert(`¡Ups! Solo quedan ${stockDisponible} unidades.`);
+        return;
+      }
+
+      setCarrito([...carrito, { ...producto, talle, imagen, id: idUnico, cantidad, _id: itemID, stock: stockDisponible }]);
+    }
   };
-
   const eliminarProducto = (id) => {
     const actualizado = carrito
       .map(item =>

@@ -1,9 +1,9 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { CarritoContext } from '../context/CarritoContext';
-import MiniaturasCarrusel from '../components/carrusel/MiniaturasCarrusel';
-import ImagenPrincipal from '../components/carrusel/ImagenPrincipal';
+
+import { getProductoById } from '../helpers/productApi';
 
 const DetalleProducto = () => {
   const { id } = useParams();
@@ -14,9 +14,11 @@ const DetalleProducto = () => {
   const [mostrarToast, setMostrarToast] = useState(false);
   const [expandirDescripcion, setExpandirDescripcion] = useState(false);
   const { agregarProducto } = useContext(CarritoContext);
-  
+
   // 1. Estado de carga inicializado en true
-  const [cargando, setCargando] = useState(true); 
+  const [cargando, setCargando] = useState(true);
+
+
 
   useEffect(() => {
     const obtenerProducto = async () => {
@@ -24,9 +26,9 @@ const DetalleProducto = () => {
         setCargando(true);
         // 2. URL CORREGIDA (sin comillas raras en el medio)
         const respuesta = await fetch(`https://ecommercew14backend.vercel.app/api/productos/${id}`);
-        
+
         if (!respuesta.ok) {
-            throw new Error('Error en la petición');
+          throw new Error('Error en la petición');
         }
 
         const data = await respuesta.json();
@@ -34,11 +36,11 @@ const DetalleProducto = () => {
         if (data.producto) {
           const productoAdaptado = {
             ...data.producto,
-            imagenes: [data.producto.img] 
+            imagenes: [data.producto.img]
           };
           setProducto(productoAdaptado);
         } else {
-            console.log("No se encontró el producto");
+          console.log("No se encontró el producto");
         }
       } catch (error) {
         console.error("Error conectando con el backend:", error);
@@ -83,21 +85,20 @@ const DetalleProducto = () => {
   return (
     <Container className="py-5">
       <Row className="align-items-start">
-        <Col xs={12} md={2}>
-          <MiniaturasCarrusel
-            imagenes={producto.imagenes}
-            selectedIndex={selectedIndex}
-            onSelect={setSelectedIndex}
+        <Col xs={12} md={6} className="d-flex align-items-center justify-content-center mb-4 bg-white p-3 rounded">
+          <img
+            src={producto.imagenes && producto.imagenes[0] ? producto.imagenes[0] : producto.img}
+            alt={producto.nombre}
+            className="img-fluid"
+            style={{ maxHeight: '350px', objectFit: 'contain' }}
           />
-        </Col>
-        <Col xs={12} md={5}>
-          <ImagenPrincipal imagen={producto.imagenes[selectedIndex]} />
         </Col>
         <Col xs={12} md={5}>
           <h2>{producto.nombre}</h2>
           <p className="text-muted">Código: {producto.id}</p>
-          <p className="text-muted">Categoría: {producto.categoria?.nombre || producto.categoria}</p>
-
+         <p className="text-muted fw-bold">
+  Categoría: <span className="text-uppercase text-primary">{producto.categoria?.nombre || 'Varios'}</span>
+</p>
           <h5>Descripción</h5>
           {descripcionCorta.map((o, i) => <p key={i}>{o.trim()}.</p>)}
           {expandirDescripcion && descripcionCompleta.map((o, i) => (
