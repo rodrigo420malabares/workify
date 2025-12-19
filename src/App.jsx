@@ -19,7 +19,7 @@ import FooterComponent from './components/footerComponent';
 import NavigateApp from './components/NavigateApp';
 import SearchInput from './components/SearchInput';
 
-import HomePage from './pages/homePage';
+import HomePage from './pages/HomePage';
 import CarritoPage from './pages/carritoPage';
 
 
