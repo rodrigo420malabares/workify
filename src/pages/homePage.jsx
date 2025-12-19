@@ -49,7 +49,7 @@ const HomePage = () => {
         {productos.length === 0 ? (
           <div className="text-center py-5"><h4 className="text-muted">Cargando...</h4></div>
         ) : (
-          <Row className="row-cols-1 row-cols-md-4 g-4 p-3">
+          <Row className="row-cols-2 row-cols-md-4 g-4 p-3">
             {productos.map((p) => {
               const productoConId = { ...p, id: p._id || p.uid || p.id };
               return (
