@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthContext } from './context/AuthContext';
 import { CarritoProvider } from './context/CarritoContext';
 
+import { FavoritosProvider } from './context/FavoritosContext';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -40,8 +42,9 @@ import ResetPasswordPage from './pages/ResetPasswordPage';
 
 import CategoriaPage from './pages/categoriaPage';
 
+import FavoritosPage from './pages/FavoritosPage';
 
-
+import FabFavoritos from './components/FabFavoritos';
 
 
 
@@ -71,47 +74,51 @@ function App() {
 
     <BrowserRouter>
       <CarritoProvider>
-        <NavigateApp logIn={logIn} logOut={logOut} auth={!!usuario} />
-        <main>
-          <Routes>
-          
-            <Route path='/' element={<HomePage />} />
-            <Route path='/home' element={<HomePage />} />
-            <Route path='/carrito' element={<CarritoPage />} />
+        <FavoritosProvider>
+          <NavigateApp logIn={logIn} logOut={logOut} auth={!!usuario} />
+          <main>
+            <Routes>
 
-            <Route path="/search" element={<SearchResultsPage />} />
+              <Route path='/' element={<HomePage />} />
+              <Route path='/home' element={<HomePage />} />
+              <Route path='/carrito' element={<CarritoPage />} />
 
-            <Route path='/computadora' element={<ComputadorasPage />} />
-            <Route path='/contacto' element={<ContactoPage />} />
-            <Route path='/escritorio' element={<EscritorioPage />} />
-            <Route path='/fichero' element={<FicheroPage />} />
-            <Route path='/nosotros' element={<NosotrosPage />} />
-         
-            <Route path='/sillas' element={<SillasPage />} />
-            <Route path="/detalle/:id" element={<DetalleProducto />} />
-            <Route path='/cliente' element={<ClientPage />} />
-            <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-            <Route path='/reset-password' element={<ResetPasswordPage />} />
+              <Route path="/search" element={<SearchResultsPage />} />
 
-            <Route path="/categoria/:categoriaNombre" element={<CategoriaPage />} />
-            <Route path="/detalle/:id" element={<DetalleProducto />} />
+              <Route path='/computadora' element={<ComputadorasPage />} />
+              <Route path='/contacto' element={<ContactoPage />} />
+              <Route path='/escritorio' element={<EscritorioPage />} />
+              <Route path='/fichero' element={<FicheroPage />} />
+              <Route path='/nosotros' element={<NosotrosPage />} />
 
+              <Route path='/sillas' element={<SillasPage />} />
+              <Route path="/detalle/:id" element={<DetalleProducto />} />
+              <Route path='/cliente' element={<ClientPage />} />
+              <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+              <Route path='/reset-password' element={<ResetPasswordPage />} />
 
-
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoutesAdmin auth={usuario?.rol === 'Admin'}>
-                  <Admin />
-                </ProtectedRoutesAdmin>
-              }
-            />
+              <Route path="/categoria/:categoriaNombre" element={<CategoriaPage />} />
+              <Route path="/detalle/:id" element={<DetalleProducto />} />
+              <Route path='/favoritos' element={<FavoritosPage />} />
 
 
-            <Route path='*' element={<Error404Page />} />
-          </Routes>
-        </main>
-        <FooterComponent />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoutesAdmin auth={usuario?.rol === 'Admin'}>
+                    <Admin />
+                  </ProtectedRoutesAdmin>
+                }
+              />
+
+
+              <Route path='*' element={<Error404Page />} />
+            </Routes>
+          </main>
+
+          <FabFavoritos />
+          <FooterComponent />
+        </FavoritosProvider>
       </CarritoProvider>
     </BrowserRouter>
   );
