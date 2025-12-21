@@ -50,7 +50,13 @@ const InfoProducto = ({ producto }) => {
       </span>
 
       {/* Imagen */}
-      <div style={{ height: '180px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '10px' }}>
+      <div style={{
+         height: '180px',
+         width: '100%',
+         display: 'flex',
+          alignItems: 'center',
+           justifyContent: 'center',
+            padding: '10px' }}>
         <Card.Img
           variant="top"
           src={imagenSrc}

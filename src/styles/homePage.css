@@ -111,3 +111,38 @@ h1 {
 .card a {
   color: inherit !important; /* Que herede el color (blanco o negro) según toque */
 }
+
+.card {
+  border: none !important; /* Sacamos bordes duros */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* Para que la imagen respete los bordes redondeados */
+  border-radius: 12px !important; /* Bordes más redondeados = más moderno */
+}
+
+/* Al pasar el mouse */
+.card:hover {
+  transform: translateY(-8px); /* Se mueve para arriba */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important; /* Sombra difusa */
+}
+
+h1.text-center {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  font-weight: 700; /* Más gordito */
+  letter-spacing: -1px; /* Letras un pelín más juntas (moderno) */
+}
+
+/* La línea mágica abajo del título */
+h1.text-center::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px; /* Largo de la línea */
+  height: 4px; /* Grosor */
+  background-color: #ff4081; /* Usá el color de tu botón de Favoritos (rosa) o un acento */
+  border-radius: 2px;
+}

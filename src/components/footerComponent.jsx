@@ -7,7 +7,7 @@ import '../styles/footerComponent.css'
 
 function footerComponent() {
   return (
-    <div className="workify-footer text-white py-4" style={{ borderTop: '2px solid #2px solid #0a0a0aff' }}>
+    <footer className="workify-footer text-white py-4" style={{ borderTop: '2px solid  #0a0a0aff' }}>
       <Container  >
         <Row>
 
@@ -48,7 +48,7 @@ function footerComponent() {
 
         </Row>
       </Container>
-    </div>
+    </footer>
   )
 }
 

@@ -28,3 +28,14 @@
     /* filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5)); */
     opacity: 0.9;
 }
+
+
+/* En footerComponent.css */
+footer a svg {
+  transition: transform 0.2s, color 0.2s;
+}
+
+footer a:hover svg {
+  transform: scale(1.2); /* Se agranda un poquito */
+  fill: #ff4081; /* Cambia de color al pasar el mouse */
+}

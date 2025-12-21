@@ -93,3 +93,29 @@ footer {
      color: white;
      border-top: 1px solid #373b3e;
 }
+
+/* FOOTER EN MODO OSCURO */
+[data-bs-theme="dark"] footer {
+    /* OPCIÓN 1: Gris Carbón (Igual que el Header - Recomendado para consistencia) */
+    background-color: #212529 !important;
+
+    /* OPCIÓN 2: Negro Puro (Cierra la página con fuerza y elegancia) */
+    /* background-color: #000000 !important; */
+
+    /* OPCIÓN 3: Mismo fondo que la web (Minimalista, solo se separa por la línea) */
+    /* background-color: transparent !important; */
+    
+    /* Textos y Bordes */
+    color: #e0e0e0 !important; /* Texto casi blanco (no blanco puro para no encandilar) */
+    border-top: 1px solid #373b3e; /* Una línea finita arriba para separarlo */
+}
+
+/* Si tienes links dentro del footer, aseguramos que se vean bien */
+[data-bs-theme="dark"] footer a {
+    color: #6ea8fe !important; /* Un celeste suave para los enlaces */
+    text-decoration: none;
+}
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+}

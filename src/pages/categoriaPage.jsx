@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; // Para leer la URL
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import '../styles/CategoriaPage.css'
 
 const CategoriaPage = () => {
   // Esto captura lo que viene después de /categoria/
