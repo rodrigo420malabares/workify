@@ -53,12 +53,25 @@
 
 
 h1 {
-  font-size: 2rem;
+ font-size: 2rem;
   font-weight: 600;
-  color: #1a1a1a;
+  /* ANTES: color: #1a1a1a; (ESTO ESTABA MAL) */
+  /* AHORA: Usamos la variable de Bootstrap que cambia sola */
+  color: var(--bs-heading-color);
 }
 
+.card {
+ /* Mantenemos el color de fondo y texto adaptable */
+  background-color: var(--bs-card-bg);
+  color: var(--bs-card-color);
 
+  /* 👇 MEJORA 1: Usamos un color de borde "translucido" que se nota más en modo oscuro */
+  border: 1px solid var(--bs-border-color-translucent);
+
+  /* 👇 MEJORA 2: Agregamos una sombra suavecita para darle profundidad (3D) */
+  /* Esta variable de Bootstrap aplica una sombra negra suave que funciona en ambos modos */
+  box-shadow: var(--bs-box-shadow-sm);
+}
 
 .card a {
   text-decoration: none;
@@ -76,4 +89,60 @@ h1 {
   height: 400px;
   object-fit: cover;
 
+}
+
+
+/* CASO 1: Modo CLARO (Día) -> Queremos Cards NEGRAS ⚫ */
+[data-bs-theme="light"] .card {
+  background-color: #212529 !important; /* Fondo casi negro */
+  color: #ffffff !important;            /* Texto blanco */
+  border: 1px solid #495057;            /* Borde gris oscuro */
+}
+
+/* CASO 2: Modo OSCURO (Noche) -> Queremos Cards BLANCAS ⚪ */
+[data-bs-theme="dark"] .card {
+  background-color: #ffffff !important; /* Fondo blanco puro */
+  color: #000000 !important;            /* Texto negro */
+  border: 1px solid #dee2e6;            /* Borde gris clarito */
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1); /* Un brillito extra */
+}
+
+/* Ajuste para que los links dentro de las cards no se rompan */
+.card a {
+  color: inherit !important; /* Que herede el color (blanco o negro) según toque */
+}
+
+.card {
+  border: none !important; /* Sacamos bordes duros */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* Para que la imagen respete los bordes redondeados */
+  border-radius: 12px !important; /* Bordes más redondeados = más moderno */
+}
+
+/* Al pasar el mouse */
+.card:hover {
+  transform: translateY(-8px); /* Se mueve para arriba */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important; /* Sombra difusa */
+}
+
+h1.text-center {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  font-weight: 700; /* Más gordito */
+  letter-spacing: -1px; /* Letras un pelín más juntas (moderno) */
+}
+
+/* La línea mágica abajo del título */
+h1.text-center::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px; /* Largo de la línea */
+  height: 4px; /* Grosor */
+  background-color: #ff4081; /* Usá el color de tu botón de Favoritos (rosa) o un acento */
+  border-radius: 2px;
 }

@@ -7,8 +7,13 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #caedfd; 
+ 
   font-family: 'Segoe UI', sans-serif;
+
+  /* Usamos las variables de Bootstrap en lugar de colores fijos */
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Un suavizado cheto */
 }
 
 main {
@@ -69,3 +74,48 @@ footer {
   }
 }
 
+/* HEADER EN MODO OSCURO */
+[data-bs-theme="dark"] .navbar {
+    /* Opción 1: Gris Carbón (Recomendado) */
+    background-color: #212529 !important; 
+    
+    /* Opción 2: Azul Noche (Si prefieres mantener el toque azul) */
+    /* background-color: #051b3b !important; */
+
+    /* Un borde sutil abajo para separarlo del contenido */
+    border-bottom: 1px solid #373b3e;
+    transition: background-color 0.3s ease;
+}
+
+/* Opcional: Asegurar que el Footer también cambie si es azul */
+[data-bs-theme="dark"] footer {
+     background-color: #212529 !important;
+     color: white;
+     border-top: 1px solid #373b3e;
+}
+
+/* FOOTER EN MODO OSCURO */
+[data-bs-theme="dark"] footer {
+    /* OPCIÓN 1: Gris Carbón (Igual que el Header - Recomendado para consistencia) */
+    background-color: #212529 !important;
+
+    /* OPCIÓN 2: Negro Puro (Cierra la página con fuerza y elegancia) */
+    /* background-color: #000000 !important; */
+
+    /* OPCIÓN 3: Mismo fondo que la web (Minimalista, solo se separa por la línea) */
+    /* background-color: transparent !important; */
+    
+    /* Textos y Bordes */
+    color: #e0e0e0 !important; /* Texto casi blanco (no blanco puro para no encandilar) */
+    border-top: 1px solid #373b3e; /* Una línea finita arriba para separarlo */
+}
+
+/* Si tienes links dentro del footer, aseguramos que se vean bien */
+[data-bs-theme="dark"] footer a {
+    color: #6ea8fe !important; /* Un celeste suave para los enlaces */
+    text-decoration: none;
+}
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+}

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'; // Para leer la URL
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+
 const CategoriaPage = () => {
   // Esto captura lo que viene después de /categoria/
   const { categoriaNombre } = useParams(); 

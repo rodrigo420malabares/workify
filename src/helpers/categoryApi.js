@@ -6,29 +6,28 @@ const limite = 6;
 // Helper para obtener el token siempre fresco
 const getToken = () => localStorage.getItem("authToken");
 
-// 1. Obtener Categorías
-export const getCategorias = async (desde = 0) => {
-    try {
-        const resp = await fetch(url + "?limite=" + limite + "&desde=" + desde, {
-            method: "GET",
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                // 🚨 CORRECCIÓN: Leemos el token aquí mismo, no usamos la variable de arriba
-                "x-token": getToken(), 
-            },
-        });
-        const data = await resp.json();
-        return data;
-    } catch (error) {
-        console.log(error);
-        throw new Error("no se pudo obtener la info");
-    }
+// 1. Obtener Categorías (Con paginación)
+export const getCategorias = async (desde = 0, limite = 5) => {
+  try {
+    const resp = await fetch(`${url}?limite=${limite}&desde=${desde}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        // Si tu backend pide token para verlas, descomentá:
+        // "x-token": getToken(),
+      },
+    });
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("No se pudo obtener la info");
+  }
 };
-
 // 2. Obtener Categoría por ID
 export const getCategoriaById = async (id) => {
     try {
-        const resp = await fetch(url + "/" + id, {
+        const resp = await fetch(url + "/" +  id, {
             method: "GET",
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -43,30 +42,25 @@ export const getCategoriaById = async (id) => {
     }
 };
 
-// 👇 AQUÍ ESTÁ LA MAGIA QUE ARREGLA EL ERROR 400
-export const crearCategoria = async (nombre) => {
+// 2. Crear Categoría
+export const crearCategoria = async (datos) => {
   try {
+    // 👇 CAMBIO CLAVE: Esperamos que 'datos' ya sea { nombre: "xxx" }
+    // No le agregamos llaves extra aquí.
     const resp = await fetch(url, {
       method: "POST",
-      // 📦 EMPAQUETAMOS EL TEXTO EN UN OBJETO JSON
-      body: JSON.stringify({ nombre }), 
+      body: JSON.stringify(datos), 
       headers: {
         "Content-type": "application/json; charset=UTF-8",
         "x-token": getToken(),
       },
     });
 
-    if (!resp.ok) {
-        const errorMsg = await resp.text();
-        console.error("🔥 Error del Backend:", errorMsg);
-        throw new Error("Error al crear categoría: " + resp.statusText);
-    }
-
     const data = await resp.json();
     return data;
   } catch (error) {
     console.log(error);
-    throw error;
+    return { msg: "No se conectó con backend" };
   }
 };
 // 4. Actualizar Categoría
@@ -89,7 +83,7 @@ export const actualizarCategoria = async (id, datos) => {
 };
 
 // 5. Borrar Categoría
-export const borraCategoria = async (id) => {
+export const borrarCategoria = async (id) => {
     try {
         const resp = await fetch(url + "/" + id, {
             method: "DELETE",

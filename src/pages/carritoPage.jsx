@@ -6,7 +6,7 @@ import { BsTrash, BsCreditCard, BsTruck } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
 const CarritoPage = () => {
-  const { carrito, agregarProducto, eliminarProducto, vaciarCarrito, eliminarProductoTotal } = useContext(CarritoContext);
+  const { carrito, agregarProducto, eliminarProducto, vaciarCarrito,calcularTotal, eliminarProductoTotal } = useContext(CarritoContext);
   const { usuario } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -17,12 +17,6 @@ const CarritoPage = () => {
   const [datosEnvio, setDatosEnvio] = useState({ calle: '', altura: '', cp: '', ciudad: '' });
   const [datosPago, setDatosPago] = useState({ numero: '', nombre: '', vencimiento: '', cvv: '' });
 
-  const calcularTotal = () => {
-    return carrito.reduce((total, item) => {
-      const precioNumerico = parseFloat(item.precio?.toString().replace(/[^0-9.-]+/g, '')) || 0;
-      return total + precioNumerico * item.cantidad;
-    }, 0);
-  };
 
   const extraerProductoBase = (item) => ({
     id: item.id.replace(`-${item.talle}`, ''),

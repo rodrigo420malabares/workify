@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Table, Button, Badge } from 'react-bootstrap';
+import { Table, Button, Badge, Pagination } from 'react-bootstrap';
 import { getUsuarios, borrarUsuario } from '../../helpers/userApi';
 
 const AdminUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
+
+  // 2. Nuevos estados para la paginación
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 10; // Cantidad de usuarios por página
 
   useEffect(() => {
     cargarUsuarios();
@@ -32,7 +36,17 @@ const AdminUsuarios = () => {
       alert("No se pudo borrar");
     }
   };
+// 3. Lógica matemática para cortar la lista (El cerebro de la paginación) 🧠
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  // Esta es la lista "cortada" que vamos a mostrar en la tabla
+  const currentUsers = usuarios.slice(indexOfFirstUser, indexOfLastUser);
+  
+  // Calculamos el total de páginas
+  const totalPages = Math.ceil(usuarios.length / usersPerPage);
 
+  // Función para cambiar de página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div className="mt-4">
       <h3 className="mb-3">Gestión de Usuarios</h3>
@@ -49,14 +63,14 @@ const AdminUsuarios = () => {
             </tr>
           </thead>
           <tbody>
-            {usuarios.length === 0 ? (
+            {currentUsers.length === 0 ? (
               <tr>
                 <td colSpan="5" className="text-center">
                   Cargando usuarios o no hay registros...
                 </td>
               </tr>
             ) : (
-              usuarios.map((u) => (
+              currentUsers.map((u) => (
                 <tr key={u.uid || u._id}> 
                   <td>{u.nombre} {u.apellido}</td>
                   <td>{u.correo}</td>
@@ -87,6 +101,32 @@ const AdminUsuarios = () => {
           </tbody>
         </Table>
       </div>
+      {totalPages > 1 && (
+        <div className="d-flex justify-content-center mt-3">
+            <Pagination>
+                <Pagination.Prev 
+                    onClick={() => setCurrentPage(currentPage - 1)} 
+                    disabled={currentPage === 1} 
+                />
+                
+                {/* Generamos los botones de número dinámicamente */}
+                {[...Array(totalPages)].map((_, index) => (
+                    <Pagination.Item 
+                        key={index + 1} 
+                        active={index + 1 === currentPage}
+                        onClick={() => paginate(index + 1)}
+                    >
+                        {index + 1}
+                    </Pagination.Item>
+                ))}
+
+                <Pagination.Next 
+                    onClick={() => setCurrentPage(currentPage + 1)} 
+                    disabled={currentPage === totalPages} 
+                />
+            </Pagination>
+        </div>
+      )}
     </div>
   );
 };

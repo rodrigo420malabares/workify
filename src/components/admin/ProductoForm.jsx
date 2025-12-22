@@ -26,7 +26,7 @@ const ProductoForm = ({ productoInicial, onGuardar, onCancelar }) => {
 
   const cargarCategorias = async () => {
     try {
-      const respuesta = await getCategorias();
+      const respuesta = await getCategorias(0,50);
       // Ajustamos si la respuesta viene como {categorias: [...]} o array directo
       const categoriasBackend = respuesta.categorias || respuesta || [];
       setListaCategorias(categoriasBackend);
