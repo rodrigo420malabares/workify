@@ -27,14 +27,14 @@ import CarritoPage from './pages/carritoPage';
 import ContactoPage from './pages/contactoPage';
 import Error404Page from './pages/error404Page';
 
-//import LoginPage from './pages/loginPage';
+
 import NosotrosPage from './pages/nosotrosPage';
-//import RegistroPage from './pages/registroPage';
+
 
 import DetalleProducto from './components/DetalleProducto';
 import Admin from './pages/Admin';
 import ProtectedRoutesAdmin from './routes/ProtectedRoutesAdmin';
-import ClientPage from './pages/ClientePage';
+
 import { SearchResultsPage } from './pages/SearchResultsPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
@@ -92,7 +92,7 @@ function App() {
 
              
              
-              <Route path='/cliente' element={<ClientPage />} />
+             
               <Route path='/forgot-password' element={<ForgotPasswordPage />} />
               <Route path='/reset-password' element={<ResetPasswordPage />} />
 

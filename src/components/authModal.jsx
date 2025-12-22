@@ -31,6 +31,8 @@ const AuthModal = ({ show, handleClose }) => {
     // Para mostrar errores rojos arriba
     const [error, setError] = useState(null);
 
+    const [successMsg, setSuccessMsg] = useState(null);
+
     // Para bloquear el botón y mostrar el spinner mientras carga
     const [loading, setLoading] = useState(false);
 
@@ -49,6 +51,7 @@ const AuthModal = ({ show, handleClose }) => {
     const toggleMode = () => {
         setIsLogin(!isLogin);
         setError(null);
+        setSuccessMsg(null); // AGREGÁ ESTO PARA QUE SE BORRE AL CAMBIAR
         setFormData({ nombre: '', apellido: '', correo: '', password: '', confirmPassword: '' });
     };
     // 4. EL CEREBRO (El envío del formulario)
@@ -84,28 +87,15 @@ const AuthModal = ({ show, handleClose }) => {
                 }
                 // 🚨 CORRECCIÓN: Usamos un helper en vez del fetch directo
                 // Enviamos los datos limpios al backend
-                const resp = await fetch('https://ecommercew14backend.vercel.app/api/usuarios', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        nombre: formData.nombre,
-                        apellido: formData.apellido,
-                        correo: formData.correo,
-                        password: formData.password,
-                        rol: 'Usuario'
-                    })
-                });
-
-                // 🚨 CORRECCIÓN: Usamos un helper en vez del fetch directo
-                // Enviamos los datos limpios al backend
                 await registroUsuario({
                     nombre: formData.nombre,
                     apellido: formData.apellido,
                     correo: formData.correo,
                     password: formData.password,
-                    rol: 'Usuario' // Forzamos que sea usuario común
+                    rol: 'Usuario'
                 });
 
+         
                 // Si llega acá es porque no hubo error en el registro
                 setSuccessMsg("Cuenta creada con éxito. Por favor iniciá sesión.");
                 setIsLogin(true); // Lo mandamos a la pantalla de login automáticamente
@@ -127,7 +117,7 @@ const AuthModal = ({ show, handleClose }) => {
 
             <Modal.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
-
+{successMsg && <Alert variant="success">{successMsg}</Alert>}
                 <Form onSubmit={handleSubmit}>
 
                     {!isLogin && (
