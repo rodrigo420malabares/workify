@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from 'react';
-//import login usuario
 import { loginUsuario } from '../helpers/loginApi';
 import { renewTokenApi } from '../helpers/renewApi';
 
@@ -7,80 +6,67 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
 
-  const [usuario, setUsuario] = useState(() => {
+  const [usuario, setUsuario] = useState(
     null
-    // const guardado = localStorage.getItem('usuario');
-    // return guardado ? JSON.parse(guardado) : null;
-  });
+  );
   // Estado para saber si la sesión ya se cargó/verificó
   const [loading, setLoading] = useState(true);
 
      // 🚨 LÓGICA DE PERSISTENCIA (Hidratación)
     useEffect(() => {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('authToken'); // 1. Busca si hay un usuario logueado
 
     if (token) {
-            renewTokenApi(token) // 🚨 Llamada a la API segura
+            renewTokenApi(token) // 2. Pregunta al boliche (Backend) si la pulsera sigue valiendo
                 .then(data => {
-                    localStorage.setItem('authToken', data.token); // Guardar el nuevo token
+                  // 3. Si el back dice OK, guardamos el usuario en memoria
+                    localStorage.setItem('authToken', data.token);
                     setUsuario(data.usuario);
                 })
                 .catch(e => {
-                    // Si falla (token expirado/inválido), limpiamos todo
+                    // 4. Si falla (token expirado/inválido), limpiamos todo
                     localStorage.removeItem('authToken'); 
                 })
                 .finally(() => {
-                    setLoading(false); 
+                    setLoading(false);  // 5. Terminó la carga, sacamos el spinner
                 });
         } else {
-            setLoading(false); // No hay token, terminamos la carga
+            setLoading(false);// Si no había token, también sacamos el spinner
         }
     }, []);
 
   const login = async (credencialesForm) => {
-    // setUsuario(user);
-    // localStorage.setItem('usuario', JSON.stringify(user));
-    // Mapeamos los campos del formulario a lo que espera el Backend: { correo, password }
+  // 1. Preparamos los datos
     const datosParaApi = {
       correo: credencialesForm.correo,
       password: credencialesForm.password, // El backend espera 'password'
     };
 
-    
-
- 
-
-    
-
     try {
+      // 2. Petición al Backend (esperamos respuesta con await)
       const data = await loginUsuario(datosParaApi); //helper
 
-      // 2. 💾 Guardar el token (JWT)
+      // 3. ¡Éxito! Guardamos el Token en el disco duro (LocalStorage)
       localStorage.setItem('authToken', data.token);
 
-      //localStorage.setItem('usuario_data', JSON.stringify(data.usuario));
+      // 4. Guardamos los datos del usuario en la RAM (Estado de React)
 
-      // 3. 👤 Establecer el usuario en el estado global
-      setUsuario(data.usuario);
+      setUsuario(data.usuario); // Establecer el usuario en el estado global
 
-      return { ok: true };
-      //data.usuario; // Retornamos el objeto usuario para las redirecciones importante: 
-      // esta linea fue correcida por el { ok: true };
+      return { ok: true };// Avisamos que salió todo bien
 
-    } catch (error) {
-      // Si hay un error (ej: credenciales inválidas), lo relanzamos
-      throw error;
+    } catch (error) {  
+
+      throw error; // Si hay un error (ej: credenciales inválidas), lo relanzamos
     }
 
   };
 
   const logOut = async () => {
-    setUsuario(null);
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('authToken');
-
-   // localStorage.removeItem('usuario_data'); // Si usas esta clave extra
-  };
+    setUsuario(null);// Borra de la memoria RAM (React)
+    localStorage.removeItem('authToken');// Borra del disco duro (LocalStorage)
+};
+  
 
   
 

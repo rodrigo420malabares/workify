@@ -23,15 +23,14 @@ import HomePage from './pages/homePage';
 import CarritoPage from './pages/carritoPage';
 
 
-import ComputadorasPage from './pages/computadorasPage';
+
 import ContactoPage from './pages/contactoPage';
 import Error404Page from './pages/error404Page';
-import EscritorioPage from './pages/escritorioPage';
-import FicheroPage from './pages/ficheroPage';
+
 //import LoginPage from './pages/loginPage';
 import NosotrosPage from './pages/nosotrosPage';
 //import RegistroPage from './pages/registroPage';
-import SillasPage from './pages/sillasPage';
+
 import DetalleProducto from './components/DetalleProducto';
 import Admin from './pages/Admin';
 import ProtectedRoutesAdmin from './routes/ProtectedRoutesAdmin';
@@ -58,15 +57,15 @@ function App() {
   console.log("Rol del usuario:", usuario?.rol);
 
   if (loading) {
-    return null
-    // return (
-    //   <div className="d-flex justify-content-center align-items-center vh-100">
-    //     <div className="spinner-border text-primary" role="status">
-    //       <span className="visually-hidden">Cargando...</span>
-    //     </div>
-    //     <h2 className="ms-2">Cargando App...</h2>
+   // return null
+     return (
+       <div className="d-flex justify-content-center align-items-center vh-100">
+         <div className="spinner-border text-primary" role="status">
+         <span className="visually-hidden">Cargando...</span>
+      </div>
+        <h2 className="ms-2">Cargando App...</h2>
     //   </div>
-    // );
+     );
   }
 
 
@@ -85,14 +84,14 @@ function App() {
 
               <Route path="/search" element={<SearchResultsPage />} />
 
-              <Route path='/computadora' element={<ComputadorasPage />} />
+             
               <Route path='/contacto' element={<ContactoPage />} />
-              <Route path='/escritorio' element={<EscritorioPage />} />
-              <Route path='/fichero' element={<FicheroPage />} />
+             
+            
               <Route path='/nosotros' element={<NosotrosPage />} />
 
-              <Route path='/sillas' element={<SillasPage />} />
-              <Route path="/detalle/:id" element={<DetalleProducto />} />
+             
+             
               <Route path='/cliente' element={<ClientPage />} />
               <Route path='/forgot-password' element={<ForgotPasswordPage />} />
               <Route path='/reset-password' element={<ResetPasswordPage />} />
