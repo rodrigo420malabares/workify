@@ -3,6 +3,7 @@ import { Carousel, Card, Row, Col, Container, Button, Spinner } from 'react-boot
 import { Link } from 'react-router-dom';
 import '../styles/homePage.css';
 import InfoProducto from '../components/InfoProducto';
+import CarruselDestacados from '../components/carrusel/CarruselDestacados';
 
 
 // Importamos imágenes
@@ -68,7 +69,7 @@ const [loading, setLoading] = useState(false);
           <Carousel.Item><img src={carrusel6} className="carousel-img" alt="3" /></Carousel.Item>
         </Carousel>
       </div>
-
+<CarruselDestacados />
       <Container className="my-5">
         <h1 className="text-center mb-4">Lanzamientos</h1>
         {productos.length === 0 ? (

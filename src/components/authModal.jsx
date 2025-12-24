@@ -43,6 +43,10 @@ const AuthModal = ({ show, handleClose }) => {
     // Usa [e.target.name] para saber qué campo se está escribiendo (nombre, correo, etc).
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        
+        // AGREGADO : Si el usuario escribe, borramos el error rojo
+    if (error) setError(null);
+
     };
 
     // Cambia entre modo Login y Registro y LIMPIA los campos.
@@ -73,6 +77,13 @@ const AuthModal = ({ show, handleClose }) => {
                     handleClose();// Cerramos el modal si todo salió bien
 
                     // No hace falta navegar, el AuthContext actualiza el Header solo.
+                    const rolUsuario = resultado.usuario?.rol || resultado.rol;
+
+                    if (rolUsuario === 'admin' || rolUsuario === 'Admin') {
+                        navigate('/admin'); // 🚀 Despegar hacia el panel de control
+                    } else {
+                        navigate('/home');  // 🏠 A los usuarios comunes los mandamos a casa (o donde quieras)
+                    }
                 } else {
 
                     setError(resultado.msg || "Error al iniciar sesión");
@@ -95,7 +106,7 @@ const AuthModal = ({ show, handleClose }) => {
                     rol: 'Usuario'
                 });
 
-         
+
                 // Si llega acá es porque no hubo error en el registro
                 setSuccessMsg("Cuenta creada con éxito. Por favor iniciá sesión.");
                 setIsLogin(true); // Lo mandamos a la pantalla de login automáticamente
@@ -117,7 +128,7 @@ const AuthModal = ({ show, handleClose }) => {
 
             <Modal.Body>
                 {error && <Alert variant="danger">{error}</Alert>}
-{successMsg && <Alert variant="success">{successMsg}</Alert>}
+                {successMsg && <Alert variant="success">{successMsg}</Alert>}
                 <Form onSubmit={handleSubmit}>
 
                     {!isLogin && (

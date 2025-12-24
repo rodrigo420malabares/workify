@@ -53,12 +53,24 @@ export function AuthProvider({ children }) {
 
       setUsuario(data.usuario); // Establecer el usuario en el estado global
 
-      return { ok: true };// Avisamos que salió todo bien
+      return{ 
+     ok: true, 
+     usuario: data.usuario, // <--- ¡Devolvemos al pasajero!
+     rol: data.usuario.rol  // (Opcional, para asegurar)
+   };;// Avisamos que salió todo bien
 
     } catch (error) {  
+      console.error("Error en login:", error);
 
-      throw error; // Si hay un error (ej: credenciales inválidas), lo relanzamos
-    }
+      // 🚨 CORRECCIÓN CLAVE AQUÍ ABAJO 👇
+      // En vez de 'throw error', devolvemos un objeto con ok: false.
+      // Intentamos leer el mensaje del error (si viene del helper) o ponemos uno genérico.
+      return {
+         ok: false,
+         msg: error.message || error.msg || "Usuario o contraseña incorrectos"
+      };
+    
+  };
 
   };
 

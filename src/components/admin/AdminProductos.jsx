@@ -1,35 +1,51 @@
 import { useState, useEffect } from 'react';
-import { Container, Button, Modal, Spinner, Alert } from 'react-bootstrap';
+import { Container, Button, Modal, Spinner, Alert, Pagination } from 'react-bootstrap';
 import FiltroProductos from './FiltroProductos';
 import ListaProductos from './ListaProductos';
 import ProductoForm from './ProductoForm';
 
 // Importamos la API
-import { 
-  getProductos, 
-  crearProducto, 
-  actualizarProducto, 
-  borrarProducto 
+import {
+  getProductos,
+  crearProducto,
+  actualizarProducto,
+  borrarProducto
 } from '../../helpers/productApi';
 
 const AdminProductos = () => {
   const [productos, setProductos] = useState([]);
   const [filtros, setFiltros] = useState({ nombre: '', categoria: '', talle: '' });
-  
+
   // Estados para el Modal y la Edición
   const [showModal, setShowModal] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [productoEditando, setProductoEditando] = useState(null);
-  
+
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState(null);
+
+
+  // ESTADOS DE PAGINACIÓN 📄
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 12; // <= Configurado a 12 por página
 
   useEffect(() => {
     cargarProductos();
   }, []);
 
-  const cargarProductos = async () => {
-    setLoading(true);
+  // 2. RESETEAR PAGINACIÓN AL FILTRAR 🔄
+  // Si el usuario busca algo, volvemos a la página 1 para que no se pierda los resultados
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filtros]);
+
+ const cargarProductos = async (mostrarSpinner = true) => {
+    
+    // Solo ponemos el loading si nos piden mostrar el spinner
+    if (mostrarSpinner) {
+      setLoading(true);
+    }
+
     try {
       const resp = await getProductos();
       setProductos(resp.productos || resp || []);
@@ -37,7 +53,10 @@ const AdminProductos = () => {
       console.error("Error:", error);
       setMensaje({ tipo: 'danger', texto: 'Error al cargar productos' });
     } finally {
-      setLoading(false);
+      // Solo sacamos el loading si lo habíamos puesto
+      if (mostrarSpinner) {
+        setLoading(false);
+      }
     }
   };
 
@@ -61,7 +80,7 @@ const AdminProductos = () => {
     try {
       // 1. Adaptar imagen (Array -> String 'img')
       const imagenPrincipal = (productoDelFormulario.imagenes && productoDelFormulario.imagenes.length > 0)
-        ? productoDelFormulario.imagenes[0] 
+        ? productoDelFormulario.imagenes[0]
         : '';
 
       const productoParaBackend = {
@@ -70,8 +89,8 @@ const AdminProductos = () => {
       };
 
       // Limpieza
-      delete productoParaBackend.imagenes; 
-      delete productoParaBackend.imagen; 
+      delete productoParaBackend.imagenes;
+      delete productoParaBackend.imagen;
 
       if (modoEdicion && productoEditando) {
         const id = productoEditando._id || productoEditando.uid || productoEditando.id;
@@ -104,17 +123,29 @@ const AdminProductos = () => {
     }
   };
 
+
+
   const editarProducto = (producto) => {
     // Convertir 'img' a 'imagenes' para el formulario
     const productoParaForm = {
       ...producto,
       imagenes: producto.img ? [producto.img] : []
     };
-    
+
     setModoEdicion(true);
     setProductoEditando(productoParaForm);
     setShowModal(true); // Abrimos la ventana
   };
+
+  // Función para poner/sacar la estrella
+const toggleDestacado = async (id, destacadoActual) => {
+  try {
+    await actualizarProducto(id, { destacado: !destacadoActual });
+    cargarProductos(false); // Recargamos para ver el cambio
+  } catch (error) {
+    alert("No se pudo cambiar el destacado");
+  }
+};
 
   // Filtros
   const productosFiltrados = Array.isArray(productos) ? productos.filter(p => {
@@ -122,18 +153,27 @@ const AdminProductos = () => {
     const nombre = p.nombre.toLowerCase();
     let categoriaTexto = '';
     if (p.categoria && typeof p.categoria === 'object') {
-       categoriaTexto = p.categoria.nombre || '';
+      categoriaTexto = p.categoria.nombre || '';
     } else {
-       categoriaTexto = String(p.categoria || '');
+      categoriaTexto = String(p.categoria || '');
     }
     const coincideNombre = filtros.nombre === '' || nombre.includes(filtros.nombre.toLowerCase());
     const coincideCategoria = filtros.categoria === '' || categoriaTexto.toLowerCase() === filtros.categoria.toLowerCase();
-    
+
     return coincideNombre && coincideCategoria;
   }) : [];
 
+  //  LÓGICA DE PAGINACIÓN (CORTAR LA TORTA) 🍰
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  // Importante: Cortamos sobre 'productosFiltrados', no sobre 'productos'
+  const currentProducts = productosFiltrados.slice(indexOfFirstProduct, indexOfLastProduct);
+  const totalPages = Math.ceil(productosFiltrados.length / productsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
-    <Container className="my-4">
+   <Container className="my-4">
       
       {/* 1. ENCABEZADO Y BOTÓN NUEVO */}
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -154,11 +194,42 @@ const AdminProductos = () => {
       {loading && !showModal ? (
         <div className="text-center my-5"><Spinner animation="border" variant="primary" /></div>
       ) : (
-        <ListaProductos
-          productos={productosFiltrados}
-          onEditar={editarProducto}
-          onEliminar={(id) => eliminarProducto(id)} 
-        />
+        <>
+            <ListaProductos
+            productos={currentProducts} // 👈 Pasamos solo los 12 actuales
+            onEditar={editarProducto}
+            onEliminar={(id) => eliminarProducto(id)}
+            onDestacar={toggleDestacado} 
+            />
+
+            {/* 4. COMPONENTE DE PAGINACIÓN */}
+            {totalPages > 1 && (
+                <div className="d-flex justify-content-center mt-4">
+                    <Pagination>
+                        <Pagination.Prev 
+                            onClick={() => setCurrentPage(currentPage - 1)} 
+                            disabled={currentPage === 1} 
+                        />
+                        
+                        {/* Generamos los botones de número */}
+                        {[...Array(totalPages)].map((_, index) => (
+                            <Pagination.Item 
+                                key={index + 1} 
+                                active={index + 1 === currentPage}
+                                onClick={() => paginate(index + 1)}
+                            >
+                                {index + 1}
+                            </Pagination.Item>
+                        ))}
+
+                        <Pagination.Next 
+                            onClick={() => setCurrentPage(currentPage + 1)} 
+                            disabled={currentPage === totalPages} 
+                        />
+                    </Pagination>
+                </div>
+            )}
+        </>
       )}
 
       {/* 4. VENTANA MODAL (Aquí vive el formulario oculto) */}
@@ -168,7 +239,7 @@ const AdminProductos = () => {
         </Modal.Header>
         <Modal.Body>
           {loading ? (
-             <div className="text-center py-4"><Spinner animation="border" /> Guardando...</div>
+            <div className="text-center py-4"><Spinner animation="border" /> Guardando...</div>
           ) : (
             <ProductoForm
               productoInicial={modoEdicion ? productoEditando : {}}

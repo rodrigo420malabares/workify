@@ -1,9 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Table, Button, Badge, Pagination } from 'react-bootstrap';
-import { getUsuarios, borrarUsuario } from '../../helpers/userApi';
+import { getUsuarios, borrarUsuario, actualizarUsuario } from '../../helpers/userApi';
+
+import { AuthContext } from '../../context/AuthContext';
 
 const AdminUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
+
+  // Obtenemos tus datos de la sesión actual
+  const { usuario: usuarioLogueado } = useContext(AuthContext);
 
   // 2. Nuevos estados para la paginación
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,17 +28,35 @@ const AdminUsuarios = () => {
     }
   };
 
-  const handleBorrar = async (id) => {
-    // Usamos la alerta nativa del navegador
-    if (!window.confirm("¿Seguro que quieres eliminar/desactivar este usuario?")) {
+ // 👇 LÓGICA DE TOGGLE (EL BOTÓN INTELIGENTE) 🧠
+  const cambiarEstado = async (id, estadoActual) => {
+
+// 👇 4. EL CANDADO DE SEGURIDAD 🔒
+    // Comparamos el ID de la fila con TU ID (uid o _id)
+    const miId = usuarioLogueado.uid || usuarioLogueado._id;
+    
+    if (id === miId) {
+        alert("⚠️ ¡No podés desactivarte a vos mismo! Te quedarías sin acceso.");
+        return; // Cortamos la función acá. No hace nada.
+    }
+
+    // Definimos qué queremos hacer: si es true pasa a false, y viceversa
+    const nuevoEstado = !estadoActual;
+    const textoAccion = nuevoEstado ? "ACTIVAR" : "DESACTIVAR";
+
+    if (!window.confirm(`¿Estás seguro que querés ${textoAccion} a este usuario?`)) {
       return;
     }
 
     try {
-      await borrarUsuario(id);
+      // Usamos PUT para actualizar solo el campo 'estado'
+      await actualizarUsuario(id, { estado: nuevoEstado });
+      
+      // Recargamos la lista para ver el cambio visualmente
       cargarUsuarios();
     } catch (error) {
-      alert("No se pudo borrar");
+      console.error(error);
+      alert("No se pudo cambiar el estado");
     }
   };
 // 3. Lógica matemática para cortar la lista (El cerebro de la paginación) 🧠
@@ -70,9 +93,20 @@ const AdminUsuarios = () => {
                 </td>
               </tr>
             ) : (
-              currentUsers.map((u) => (
-                <tr key={u.uid || u._id}> 
-                  <td>{u.nombre} {u.apellido}</td>
+             currentUsers.map((u) => {
+                // 👇 Calculamos si este usuario sos vos
+                const esMismoUsuario = (u.uid || u._id) === (usuarioLogueado.uid || usuarioLogueado._id);
+
+                return (
+                <tr 
+                  key={u.uid || u._id}
+                  style={{ backgroundColor: u.estado ? 'transparent' : '#f2f2f2' }}
+                > 
+                  <td>
+                    {u.nombre} {u.apellido} 
+                    {/* Le ponemos una estrellita si sos vos */}
+                    {esMismoUsuario && <Badge bg="primary" className="ms-2">TÚ</Badge>}
+                  </td>
                   <td>{u.correo}</td>
                   <td>
                     <Badge bg={u.rol === 'ADMIN_ROLE' || u.rol === 'Admin' ? 'warning' : 'info'}>
@@ -80,23 +114,26 @@ const AdminUsuarios = () => {
                     </Badge>
                   </td>
                   <td>
-                    {u.estado ? (
-                      <Badge bg="success">Activo</Badge>
-                    ) : (
-                      <Badge bg="danger">Inactivo</Badge>
-                    )}
+                    {u.estado ? <Badge bg="success">Activo</Badge> : <Badge bg="danger">Inactivo</Badge>}
                   </td>
                   <td className="text-end">
                     <Button
-                      variant="danger"
+                      variant={u.estado ? "danger" : "success"}
                       size="sm"
-                      onClick={() => handleBorrar(u.uid || u._id)}
+                      // 👇 5. VISUALMENTE BLOQUEADO
+                      // Si sos vos, deshabilitamos el botón para que ni te tientes
+                      disabled={esMismoUsuario} 
+                      onClick={() => cambiarEstado(u.uid || u._id, u.estado)}
                     >
-                      <i className="bi bi-trash"></i> Eliminar
+                      {u.estado ? (
+                         <><i className="bi bi-person-x-fill"></i> Desactivar</>
+                      ) : (
+                         <><i className="bi bi-arrow-counterclockwise"></i> Reactivar</>
+                      )}
                     </Button>
                   </td>
                 </tr>
-              ))
+              )})
             )}
           </tbody>
         </Table>

@@ -3,7 +3,7 @@ const url = "https://ecommercew14backend.vercel.app/api/usuarios";
 const getToken = () => localStorage.getItem("authToken");
 
 // 1. OBTENER TODOS LOS USUARIOS (GET)
-export const getUsuarios = async (limite = 20, desde = 0) => {
+export const getUsuarios = async (desde = 0, limite = 0) => {
   try {
     const resp = await fetch(`${url}?limite=${limite}&desde=${desde}`, {
       method: "GET",
@@ -57,3 +57,22 @@ export const crearUsuarioAdmin = async (datosUsuario) => {
       return { msg: "Error al conectar" };
     }
   };
+
+  // 4. ACTUALIZAR USUARIO (PUT) - Para editar o cambiar estado
+export const actualizarUsuario = async (id, datos) => {
+  try {
+    const resp = await fetch(`${url}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(datos), // Acá enviamos { estado: true/false }
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "x-token": getToken(),
+      },
+    });
+    const data = await resp.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+    return { msg: "No se pudo actualizar el usuario" };
+  }
+};

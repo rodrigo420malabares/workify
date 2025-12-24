@@ -7,7 +7,7 @@ const limite = 6;
 const getToken = () => localStorage.getItem("authToken");
 
 // 1. Obtener Categorías (Con paginación)
-export const getCategorias = async (desde = 0, limite = 5) => {
+export const getCategorias = async (desde = 0, limite = 100) => {
   try {
     const resp = await fetch(`${url}?limite=${limite}&desde=${desde}`, {
       method: "GET",
