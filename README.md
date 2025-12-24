@@ -1,16 +1,98 @@
-# React + Vite
+# 🛒 Workify - E-commerce Full Stack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma de comercio electrónico desarrollada con el stack **MERN** (MongoDB, Express, React, Node.js). Incluye gestión completa de usuarios, productos, carrito de compras y panel de administración avanzado.
 
-Currently, two official plugins are available:
+> 🔗 **Demo Desplegada:** [Hacé clic acá para ver el proyecto en vivo](https://workifytienda.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Características Principales
 
-## React Compiler
+### 👤 Usuarios
+* Registro e Inicio de Sesión seguro (JWT).
+* Navegación por categorías y búsqueda inteligente.
+* Carrito de compras persistente.
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🛠️ Panel de Administración (Backoffice)
+* **Gestión de Usuarios:** Listado paginado, bloqueo/desbloqueo de usuarios (Soft Delete) y protección contra autobloqueo.
+* **Gestión de Productos:** CRUD completo (Crear, Leer, Actualizar, Borrar).
+* **Productos Destacados:** Sistema de "estrellita" ⭐ para destacar productos manualmente y visualizarlos en el Slider del Home.
+* **Buscador en Vivo:** Autocompletado en tiempo real en la barra de búsqueda.
 
-## Expanding the ESLint configuration
+### 🎨 Frontend
+* Diseño responsivo con **React Bootstrap**.
+* Sistema de notificaciones y alertas modales.
+* Carrusel de imágenes dinámico.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tecnologías Utilizadas
+
+**Frontend:**
+* React.js (Vite)
+* React Bootstrap & Bootstrap 5
+* React Router DOM
+* Context API (Manejo de estado global y Autenticación)
+
+**Backend:**
+* Node.js & Express
+* MongoDB & Mongoose
+* JWT (JSON Web Tokens) para seguridad
+* Bcryptjs (Encriptación de contraseñas)
+
+## 📦 Instalación y Despliegue
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone [https://github.com/rodrigo420malabares/workify.git](https://github.com/rodrigo420malabares/workify.git)
+    ```
+
+2.  **Instalar dependencias:**
+    ```bash
+    # En carpeta backend
+    cd backend
+    npm install
+    
+    # En carpeta frontend
+    cd ../frontend
+    npm install
+    ```
+
+3.  **Variables de Entorno (.env):**
+    
+    * **Backend:** Crear un archivo `.env` en la carpeta `/backend` y completar con tus datos:
+        ```env
+        PORT=3000
+        MONGODB_CNN=mongodb+srv://usuario:password@cluster.mongodb.net/nombre_bd
+        SECRETORPRIVATEKEY=palabra_secreta_para_jwt
+        
+        # Configuración de Cloudinary (Imágenes)
+        CLOUDINARY_CLOUD_NAME=tu_cloud_name
+        API_KEY_CLOUDINARY=tu_api_key
+        API_SECRET_CLOUDINARY=tu_api_secret
+
+        # Configuración de Email (Nodemailer)
+        EMAIL_USER=tu_email@gmail.com
+        EMAIL_PASS=tu_app_password_de_google
+        ```
+
+    * **Frontend:** Crear un archivo `.env` en la carpeta `/frontend`:
+        ```env
+        VITE_CLOUDINARY_URL=[https://api.cloudinary.com/v1_1/TU_CLOUD_NAME/image/upload](https://api.cloudinary.com/v1_1/TU_CLOUD_NAME/image/upload)
+        VITE_CLOUDINARY_PRESET=tu_upload_preset
+        ```
+        ```
+
+
+4.  **Ejecutar:**
+    ```bash
+    # Backend
+    npm run dev
+    
+    # Frontend
+    npm run dev
+    ```
+
+## 📸 Capturas
+
+--
+
+---
+Desarrollado por **[Rodrigo Oscar Galarza]** - 2025
+GitHub - https://github.com/rodrigo420malabares
